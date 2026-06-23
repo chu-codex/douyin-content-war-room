@@ -1,0 +1,3840 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>抖音内容投放作战中心</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #17202e;
+      --muted: #667284;
+      --line: #dfe5ec;
+      --red: #e83b4d;
+      --cyan: #08b7c9;
+      --green: #16a56f;
+      --amber: #d89216;
+      --violet: #6658d8;
+      --blue: #2563eb;
+      --shadow: 0 12px 34px rgba(25, 34, 48, .08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.5 "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 238px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      background: #111827;
+      color: #eef2f7;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--red), var(--cyan));
+      font-weight: 800;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 2px;
+      color: #9aa6b4;
+      font-size: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: #cfd7e3;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: rgba(255,255,255,.09);
+      color: #fff;
+    }
+
+    .nav .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+    }
+
+    .side-card {
+      margin-top: 24px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      background: rgba(255,255,255,.05);
+    }
+
+    .side-card b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .side-card p {
+      margin: 0;
+      color: #aeb8c6;
+      font-size: 12px;
+    }
+
+    main {
+      min-width: 0;
+      padding: 22px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .title h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .btn {
+      min-height: 36px;
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      background: #1f2937;
+      color: #fff;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .grid { display: grid; gap: 14px; }
+    .kpis { grid-template-columns: repeat(6, minmax(142px, 1fr)); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .kpi {
+      padding: 16px;
+      min-height: 110px;
+    }
+
+    .kpi label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 24px;
+      line-height: 1.05;
+    }
+
+    .delta {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--green);
+    }
+
+    .charts {
+      grid-template-columns: minmax(280px, 1fr) minmax(420px, 2fr);
+      margin-top: 14px;
+    }
+
+    .section {
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .section-head small {
+      color: var(--muted);
+    }
+
+    .live-analysis-grid {
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      margin-bottom: 14px;
+    }
+
+    .analysis-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: #f8fafc;
+      min-height: 108px;
+    }
+
+    .analysis-card label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .analysis-card strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .analysis-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .live-advice-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+
+    .advice-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .advice-card b { display: block; margin-bottom: 8px; }
+    .advice-card p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--cyan);
+    }
+
+    .tag.good { background: var(--green); }
+    .tag.warn { background: var(--amber); }
+    .tag.risk { background: var(--red); }
+    .tag.info { background: var(--violet); }
+
+    .donut-wrap {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 22px;
+      align-items: center;
+      min-height: 186px;
+    }
+
+    .donut {
+      width: 150px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(var(--red) 0 50%, var(--cyan) 50% 100%);
+      position: relative;
+    }
+
+    .donut::after {
+      content: attr(data-label);
+      position: absolute;
+      inset: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .legend-row {
+      display: grid;
+      grid-template-columns: 12px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .trend {
+      width: 100%;
+      height: 206px;
+      display: block;
+    }
+
+    .trend-filter {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .trend-filter button {
+      min-height: 26px;
+      padding: 4px 8px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      opacity: .48;
+    }
+
+    .trend-filter button.active {
+      border-color: #dbeafe;
+      background: #eff6ff;
+      color: var(--ink);
+      opacity: 1;
+    }
+
+    .trend-filter .filter-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: 50%;
+      vertical-align: 1px;
+    }
+
+    #trendLegend {
+      display: none !important;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+    }
+
+    .tab {
+      min-height: 30px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      padding: 5px 10px;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .tab.active {
+      background: #111827;
+      color: #fff;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 960px;
+      table-layout: auto;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .title-cell {
+      max-width: 330px;
+      white-space: normal;
+      line-height: 1.35;
+    }
+
+    .cover {
+      width: 46px;
+      height: 58px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      border: 1px solid var(--line);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      background: var(--blue);
+    }
+
+    .tag.hot { background: var(--red); }
+    .tag.sell { background: var(--green); }
+    .tag.scale { background: var(--violet); }
+    .muted { color: var(--muted); }
+    .num { font-variant-numeric: tabular-nums; }
+
+    .material-row,
+    .new-material-row {
+      cursor: pointer;
+    }
+
+    .new-material-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .new-material-summary b {
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .live-row {
+      cursor: pointer;
+    }
+
+    .live-row:hover td {
+      background: #f8fbff;
+    }
+
+    .material-row:hover td,
+    .new-material-row:hover td {
+      background: #f8fbff;
+    }
+
+    .expand-hint {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .detail-row td {
+      background: #f8fafc;
+      padding: 0 12px 14px 106px;
+    }
+
+    .live-detail-row td {
+      padding: 0 8px 14px 8px;
+    }
+
+    .material-detail-row td {
+      padding: 0 8px 14px 8px;
+    }
+
+    .detail-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .detail-table {
+      min-width: 860px;
+    }
+
+    .live-split-table {
+      min-width: 1540px;
+      table-layout: fixed;
+    }
+
+    .live-split-table th:nth-child(1),
+    .live-split-table td:nth-child(1) { width: 200px; }
+    .live-split-table th:nth-child(2),
+    .live-split-table td:nth-child(2) { width: 90px; }
+    .live-split-table th:nth-child(3),
+    .live-split-table td:nth-child(3) { width: 170px; }
+    .live-split-table th:nth-child(4),
+    .live-split-table td:nth-child(4) {
+      width: 170px;
+      white-space: normal;
+      line-height: 1.45;
+    }
+    .live-split-table th:nth-child(n+5),
+    .live-split-table td:nth-child(n+5) {
+      width: 120px;
+      text-align: right;
+    }
+    .live-split-table th:nth-child(8),
+    .live-split-table td:nth-child(8),
+    .live-split-table th:nth-child(10),
+    .live-split-table td:nth-child(10) { width: 135px; }
+    .live-split-table th:nth-child(12),
+    .live-split-table td:nth-child(12) { width: 100px; }
+
+    .live-top-table {
+      min-width: 1180px;
+      table-layout: fixed;
+    }
+
+    .live-top-table th:nth-child(1),
+    .live-top-table td:nth-child(1) { width: 72px; }
+    .live-top-table th:nth-child(2),
+    .live-top-table td:nth-child(2) { width: 360px; }
+    .live-top-table th:nth-child(3),
+    .live-top-table td:nth-child(3) { width: 140px; }
+    .live-top-table th:nth-child(n+4),
+    .live-top-table td:nth-child(n+4) {
+      width: 120px;
+      text-align: right;
+    }
+
+    .material-room-table {
+      min-width: 1180px;
+      table-layout: fixed;
+    }
+
+    .material-room-table th:nth-child(1),
+    .material-room-table td:nth-child(1) { width: 190px; }
+    .material-room-table th:nth-child(2),
+    .material-room-table td:nth-child(2) { width: 90px; }
+    .material-room-table th:nth-child(3),
+    .material-room-table td:nth-child(3) { width: 170px; }
+    .material-room-table th:nth-child(4),
+    .material-room-table td:nth-child(4) { width: 150px; }
+    .material-room-table th:nth-child(n+5),
+    .material-room-table td:nth-child(n+5) {
+      width: 110px;
+      text-align: right;
+    }
+
+    .style-table {
+      min-width: 1080px;
+      table-layout: fixed;
+    }
+
+    .style-table th:nth-child(1),
+    .style-table td:nth-child(1) { width: 190px; }
+    .style-table th:nth-child(2),
+    .style-table td:nth-child(2) { width: 96px; }
+    .style-table th:nth-child(3),
+    .style-table td:nth-child(3),
+    .style-table th:nth-child(4),
+    .style-table td:nth-child(4) { width: 112px; text-align: right; }
+    .style-table th:nth-child(5),
+    .style-table td:nth-child(5),
+    .style-table th:nth-child(6),
+    .style-table td:nth-child(6),
+    .style-table th:nth-child(7),
+    .style-table td:nth-child(7),
+    .style-table th:nth-child(8),
+    .style-table td:nth-child(8),
+    .style-table th:nth-child(9),
+    .style-table td:nth-child(9) { width: 86px; text-align: right; }
+    .style-table th:nth-child(10),
+    .style-table td:nth-child(10) { width: 210px; }
+
+    .style-code {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.35;
+    }
+
+    .style-label-codes {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      margin-top: 2px;
+      line-height: 1.25;
+    }
+
+    .style-label-codes span {
+      display: block;
+      max-width: 150px;
+      word-break: break-all;
+    }
+
+    .style-advice {
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .diagnosis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .diagnosis-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      overflow: hidden;
+    }
+
+    .diagnosis-card:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+
+    .diagnosis-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 800;
+    }
+
+    .diagnosis-list {
+      display: grid;
+      gap: 0;
+    }
+
+    .diagnosis-item {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .diagnosis-item:last-child { border-bottom: 0; }
+
+    .diagnosis-title {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 10px;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .diagnosis-title b {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .diagnosis-meta {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, auto));
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .diagnosis-meta span {
+      padding: 2px 0;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .diagnosis-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      margin-left: 0;
+      padding: 2px 7px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      vertical-align: 1px;
+      white-space: nowrap;
+    }
+
+    .diagnosis-badge.scale { background: var(--green); }
+    .diagnosis-badge.copy { background: var(--cyan); }
+    .diagnosis-badge.watch { background: var(--amber); }
+    .diagnosis-badge.stop { background: var(--red); }
+    .diagnosis-badge.seed { background: var(--violet); }
+
+    .content-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .content-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .content-read {
+      margin-top: 8px;
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .frame-analysis {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .frame-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      overflow: hidden;
+    }
+
+    .frame-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .frame-card-head b {
+      display: block;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .frame-title-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .frame-id {
+      display: grid;
+      gap: 4px;
+      justify-items: end;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .frame-id strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .frame-body {
+      display: grid;
+      grid-template-columns: 620px minmax(0, 1fr);
+      gap: 18px;
+      padding: 16px;
+    }
+
+    .frame-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .frame-strip img {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #111827;
+    }
+
+    .frame-strip img:hover {
+      transform: scale(1.02);
+      transition: transform .15s ease;
+    }
+
+    .empty-frame {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 9 / 16;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .empty-frame span {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .frame-info {
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .top-actions {
+      position: fixed;
+      top: 14px;
+      right: 22px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      padding: 8px;
+      max-width: calc(100vw - 44px);
+      border: 1px solid rgba(223, 229, 236, .92);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 10px 24px rgba(25, 34, 48, .10);
+      backdrop-filter: blur(8px);
+    }
+
+    .date-select {
+      min-width: 150px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 10px;
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .frame-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: flex-start;
+      max-height: 58px;
+      overflow: hidden;
+    }
+
+    .script-evidence {
+      display: grid;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .script-evidence b {
+      color: var(--ink);
+    }
+
+    .script-status {
+      display: inline-flex;
+      width: fit-content;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .script-status.done {
+      background: #ecfdf5;
+      color: #15803d;
+    }
+
+    .frame-tag {
+      display: inline-flex;
+      height: 24px;
+      max-width: 168px;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eef6ff;
+      color: #335c8f;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .script-timeline {
+      display: grid;
+      gap: 0;
+      padding: 4px 0;
+    }
+
+    .timeline-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 74px 18px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-height: 38px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timeline-time {
+      color: #64748b;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    .timeline-axis {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      height: 100%;
+    }
+
+    .timeline-axis::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      bottom: -6px;
+      width: 1px;
+      background: #d7e0ea;
+    }
+
+    .timeline-row:last-child .timeline-axis::before {
+      display: none;
+    }
+
+    .timeline-dot {
+      position: relative;
+      z-index: 1;
+      width: 8px;
+      height: 8px;
+      margin-top: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 0 4px #eafcff;
+    }
+
+    .timeline-main {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .timeline-row:last-child .timeline-main {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .timeline-stage {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .timeline-detail {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .frame-deep-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .frame-deep-item {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre-line;
+    }
+
+    .frame-deep-item.wide {
+      grid-column: 1 / -1;
+    }
+
+    .frame-deep-item b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .frame-card.core-mode .frame-deep-grid {
+      gap: 10px;
+    }
+
+    .frame-card.core-mode .frame-deep-item {
+      padding: 12px;
+      background: #fff;
+      border-color: var(--line);
+      white-space: pre-line;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .frame-card.core-mode .frame-deep-item b {
+      display: block;
+      min-height: 0;
+      margin: 0 0 6px;
+      padding: 0;
+      border-bottom: 0;
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .core-lines {
+      display: grid;
+      gap: 7px;
+    }
+
+    .core-line {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-height: 24px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .core-line-label {
+      color: var(--ink);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .core-line-value {
+      min-width: 0;
+    }
+
+    .core-line.highlight {
+      border: 1px solid #b9e7ef;
+      background: #f0fcff;
+    }
+
+    .core-line.highlight .core-line-label,
+    .core-line.highlight .core-line-value {
+      color: #0f6f7c;
+      font-weight: 800;
+    }
+
+    .frame-card.core-mode .content-read,
+    .frame-card.core-mode .script-evidence {
+      display: none;
+    }
+
+    .frame-card.core-mode .frame-tags {
+      margin-bottom: 8px;
+    }
+
+    .frame-card.core-mode .frame-tag {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .formula {
+      min-height: 112px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .formula b { display: block; margin-bottom: 8px; }
+    .formula p { margin: 0; color: var(--muted); }
+
+    .report-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .copy-status {
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    .report-box {
+      display: grid;
+      gap: 14px;
+    }
+
+    .report-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .report-stat {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .report-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .report-stat b {
+      display: block;
+      margin-top: 8px;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .report-block {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .report-block b {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .report-block p {
+      margin: 0;
+      color: var(--muted);
+      white-space: pre-line;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .report-list li {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .report-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .report-action-items {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .report-action-item {
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .report-video-title {
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .report-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .report-metric {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .report-copy-label {
+      display: block;
+      margin: 2px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .report-copy {
+      width: 100%;
+      min-height: 150px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: 13px/1.6 "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      resize: vertical;
+    }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+      .nav {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .kpis { grid-template-columns: repeat(3, 1fr); }
+      .charts, .formula-grid, .diagnosis-grid, .live-analysis-grid, .live-advice-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      main { padding: 14px; }
+      .topbar { display: block; }
+      .top-actions {
+        top: 10px;
+        right: 10px;
+        max-width: calc(100vw - 20px);
+      }
+      .kpis { grid-template-columns: 1fr; }
+      .donut-wrap { grid-template-columns: 1fr; }
+      .nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">抖</div>
+        <div>
+          <h1>内容投放作战中心</h1>
+          <span>数据监控 / 素材复盘 / 策略输出</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="页面导航">
+        <a class="active" href="#overview"><span class="dot"></span>投放总览</a>
+        <a href="#live-split"><span class="dot"></span>直播拆分</a>
+        <a href="#live-analysis"><span class="dot"></span>直播承接</a>
+        <a href="#style-summary"><span class="dot"></span>款式作战榜</a>
+        <a href="#material-summary"><span class="dot"></span>短视频TOP10</a>
+        <a href="#new-materials"><span class="dot"></span>近三天新素材</a>
+        <a href="#diagnosis"><span class="dot"></span>素材诊断</a>
+        <a href="#video-breakdown"><span class="dot"></span>视频拆解</a>
+        <a href="#formula"><span class="dot"></span>共性分析</a>
+        <a href="#report"><span class="dot"></span>日报输出</a>
+      </nav>
+      <div class="side-card">
+        <b>当前口径</b>
+        <p id="spendNote">短视频消耗按同一作品跨当天直播间汇总；作品数为昨天发布视频数量。</p>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div class="title">
+          <h2>抖音内容投放作战中心</h2>
+          <p id="pageSubTitle">正在读取数据...</p>
+        </div>
+        <div class="top-actions">
+          <select class="date-select" id="dataDateSelect" aria-label="选择数据日期"></select>
+          <button class="btn" type="button" id="refreshBtn">刷新页面数据</button>
+        </div>
+      </header>
+
+      <section id="overview" class="grid kpis" aria-label="投放总览">
+        <article class="card kpi"><label>昨日总消耗<span>整体</span></label><strong id="kpiTotalSpend">-</strong><div class="delta" id="dateDelta">-</div></article>
+        <article class="card kpi"><label>直播画面消耗<span>占比</span></label><strong id="kpiLiveSpend">-</strong><div class="delta" id="liveRatio">-</div></article>
+        <article class="card kpi"><label>短视频消耗<span>占比</span></label><strong id="kpiVideoSpend">-</strong><div class="delta" id="videoRatio">-</div></article>
+        <article class="card kpi"><label>昨日总成交<span>GMV</span></label><strong id="kpiTotalGmv">-</strong><div class="delta" id="gmvSplit">-</div></article>
+        <article class="card kpi"><label>整体ROI<span>昨日</span></label><strong id="kpiRoi">-</strong><div class="delta" id="roomCount">-</div></article>
+        <article class="card kpi"><label>昨天作品数<span>发布视频</span></label><strong id="kpiWorks">-</strong><div class="delta" id="materialCount">-</div></article>
+      </section>
+
+      <section class="grid charts">
+        <article class="card section">
+          <div class="section-head">
+            <h3>消耗结构</h3>
+            <small>直播画面 / 短视频 / 其他差额</small>
+          </div>
+          <div class="donut-wrap">
+            <div class="donut" id="spendDonut" data-label="-"></div>
+            <div class="legend">
+              <div class="legend-row"><span class="swatch" style="background:var(--red)"></span><span>直播画面消耗</span><b id="legendLive">-</b></div>
+              <div class="legend-row"><span class="swatch" style="background:var(--cyan)"></span><span>短视频消耗</span><b id="legendVideo">-</b></div>
+              <div class="legend-row"><span class="swatch" style="background:var(--amber)"></span><span>其他差额</span><b id="legendOther">-</b></div>
+            </div>
+          </div>
+        </article>
+        <article class="card section">
+          <div class="section-head">
+            <h3>近七天占比变化</h3>
+            <div class="trend-filter" aria-label="趋势图筛选">
+              <button class="trend-toggle active" type="button" data-trend="live"><span class="filter-dot" style="background:var(--red)"></span>直播画面占比</button>
+              <button class="trend-toggle active" type="button" data-trend="video"><span class="filter-dot" style="background:var(--cyan)"></span>短视频占比</button>
+              <button class="trend-toggle active" type="button" data-trend="roi"><span class="filter-dot" style="background:var(--green)"></span>ROI变化</button>
+            </div>
+          </div>
+          <svg class="trend" id="sevenDayTrend" viewBox="0 0 760 206" role="img" aria-label="近七天占比变化图">
+            <g stroke="#dfe5ec" stroke-width="1">
+              <line x1="40" y1="24" x2="736" y2="24"></line>
+              <line x1="40" y1="68" x2="736" y2="68"></line>
+              <line x1="40" y1="112" x2="736" y2="112"></line>
+              <line x1="40" y1="156" x2="736" y2="156"></line>
+            </g>
+            <g id="trendLines">
+              <polyline data-trend-line="live" fill="none" stroke="#e83b4d" stroke-width="4" points="44,94 160,88 276,82 392,76 508,80 624,72 720,68"></polyline>
+              <polyline data-trend-line="video" fill="none" stroke="#08b7c9" stroke-width="4" points="44,128 160,126 276,118 392,112 508,108 624,100 720,96"></polyline>
+              <polyline data-trend-line="roi" fill="none" stroke="#16a56f" stroke-width="4" points="44,108 160,102 276,96 392,92 508,106 624,98 720,104"></polyline>
+            </g>
+            <g fill="#6b7685" font-size="12" id="trendLabels">
+              <text x="35" y="190">D-6</text><text x="151" y="190">D-5</text><text x="267" y="190">D-4</text>
+              <text x="383" y="190">D-3</text><text x="499" y="190">D-2</text><text x="615" y="190">D-1</text><text x="707" y="190">昨日</text>
+            </g>
+            <g fill="#6b7685" font-size="12" id="trendLegend">
+              <g data-trend-legend="live"><circle cx="78" cy="28" r="5" fill="#e83b4d"></circle><text x="92" y="32">直播画面占比</text></g>
+              <g data-trend-legend="video"><circle cx="210" cy="28" r="5" fill="#08b7c9"></circle><text x="224" y="32">短视频占比</text></g>
+              <g data-trend-legend="roi"><circle cx="332" cy="28" r="5" fill="#16a56f"></circle><text x="346" y="32">ROI变化</text></g>
+            </g>
+          </svg>
+        </article>
+      </section>
+
+      <section id="live-split" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>直播场次拆分表</h3>
+            <small>判断每场直播是直播画面驱动，还是短视频素材驱动</small>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="live-split-table">
+            <thead>
+              <tr>
+                <th>场次</th>
+                <th>主播</th>
+                <th>开播时间</th>
+                <th>主推款</th>
+                <th>整体消耗</th>
+                <th>直播画面消耗</th>
+                <th>短视频消耗</th>
+                <th>短视频消耗占比</th>
+                <th>整体GMV</th>
+                <th>直播画面ROI</th>
+                <th>短视频ROI</th>
+                <th>素材记录</th>
+              </tr>
+            </thead>
+            <tbody id="liveRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="live-analysis" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>直播承接分析中心</h3>
+            <small>把直播画面流量、短视频引流和成交承接拆开看，判断每场直播该放量、优化还是控预算</small>
+          </div>
+        </div>
+        <div class="grid live-analysis-grid">
+          <article class="analysis-card"><label>直播画面CTR / CVR</label><strong id="liveScreenQuality">-</strong><p id="liveScreenQualityNote">-</p></article>
+          <article class="analysis-card"><label>短视频CTR / CVR</label><strong id="shortVideoQuality">-</strong><p id="shortVideoQualityNote">-</p></article>
+          <article class="analysis-card"><label>小时GMV / 小时消耗</label><strong id="hourEfficiency">-</strong><p id="hourEfficiencyNote">-</p></article>
+          <article class="analysis-card"><label>短视频承接健康度</label><strong id="liveHealthScore">-</strong><p id="liveHealthNote">-</p></article>
+        </div>
+        <div class="grid live-advice-grid" id="liveAdviceCards"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>场次</th>
+                <th>主播</th>
+                <th>主推款</th>
+                <th>短视频占比</th>
+                <th>直播画面CTR</th>
+                <th>直播画面CVR</th>
+                <th>短视频CTR</th>
+                <th>短视频CVR</th>
+                <th>小时GMV</th>
+                <th>短视频ROI</th>
+                <th>诊断</th>
+                <th>建议</th>
+              </tr>
+            </thead>
+            <tbody id="liveAnalysisRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="style-summary" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>款式作战榜</h3>
+            <small>按作品库款式聚合短视频投放表现，判断下一批优先拍哪个款</small>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>款式</th>
+                <th>品类</th>
+                <th>汇总消耗</th>
+                <th>汇总GMV</th>
+                <th>ROI</th>
+                <th>点击/进房</th>
+                <th>订单</th>
+                <th>覆盖视频</th>
+                <th>覆盖直播</th>
+                <th>建议</th>
+              </tr>
+            </thead>
+            <tbody id="styleRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="material-summary" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>短视频TOP10</h3>
+            <small>同一条短视频在当天多场直播中的消耗、成交、点击合并后排序</small>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="tab material-tab active" type="button" data-mode="spend">按消耗</button>
+            <button class="tab material-tab" type="button" data-mode="sales">按成交</button>
+            <button class="tab material-tab" type="button" data-mode="traffic">按点击</button>
+            <button class="tab material-tab" type="button" data-mode="roi">按ROI</button>
+            <button class="tab material-tab" type="button" data-mode="cpm">按CPM</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>封面</th>
+                <th>视频</th>
+                <th>汇总消耗</th>
+                <th>单场最高消耗</th>
+                <th>汇总GMV</th>
+                <th>ROI</th>
+                <th>点击/进房</th>
+                <th>展示量</th>
+                <th>CPM</th>
+                <th>款式</th>
+                <th>诊断</th>
+                <th>近3天消耗</th>
+              </tr>
+            </thead>
+            <tbody id="materialRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="new-materials" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>近三天新素材</h3>
+            <small>按当前数据日期往前3天发布的视频，单独观察有没有新素材跑出来</small>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="tab new-material-tab active" type="button" data-mode="spend">按消耗</button>
+            <button class="tab new-material-tab" type="button" data-mode="sales">按成交</button>
+            <button class="tab new-material-tab" type="button" data-mode="traffic">按点击</button>
+            <button class="tab new-material-tab" type="button" data-mode="roi">按ROI</button>
+            <button class="tab new-material-tab" type="button" data-mode="cpm">按CPM</button>
+          </div>
+        </div>
+        <div class="new-material-summary" id="newMaterialSummary"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>封面</th>
+                <th>视频</th>
+                <th>发布时间</th>
+                <th>汇总消耗</th>
+                <th>近3天消耗</th>
+                <th>汇总GMV</th>
+                <th>ROI</th>
+                <th>点击/进房</th>
+                <th>展示量</th>
+                <th>CPM</th>
+                <th>款式</th>
+                <th>新素材判断</th>
+              </tr>
+            </thead>
+            <tbody id="newMaterialRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="diagnosis" class="card section">
+        <div class="section-head">
+          <div>
+            <h3>素材诊断结果</h3>
+            <small>把同一批素材直接转成下一步动作</small>
+          </div>
+        </div>
+        <div class="diagnosis-grid">
+          <div class="diagnosis-card">
+            <div class="diagnosis-head"><span>继续放量</span><span class="tag sell">高成交</span></div>
+            <div class="diagnosis-list" id="scaleList"></div>
+          </div>
+          <div class="diagnosis-card">
+            <div class="diagnosis-head"><span>复刻拍摄</span><span class="tag hot">高引流</span></div>
+            <div class="diagnosis-list" id="copyList"></div>
+          </div>
+          <div class="diagnosis-card">
+            <div class="diagnosis-head"><span>观察降预算</span><span class="tag scale">控成本</span></div>
+            <div class="diagnosis-list" id="watchList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="video-breakdown" class="card section">
+        <div class="frame-analysis" id="frameAnalysis"></div>
+      </section>
+
+      <section id="formula" class="card section">
+        <div class="section-head">
+          <h3>爆款共性分析</h3>
+          <small>先基于数据口径输出可执行建议</small>
+        </div>
+        <div class="formula-grid">
+          <div class="formula"><b>高引流公式</b><p id="trafficFormula">-</p></div>
+          <div class="formula"><b>高成交公式</b><p id="salesFormula">-</p></div>
+          <div class="formula"><b>高跑量公式</b><p id="spendFormula">-</p></div>
+        </div>
+      </section>
+
+      <section id="report" class="card section">
+        <div class="section-head">
+          <h3>日报输出</h3>
+          <div class="report-actions">
+            <small id="reportDate">-</small>
+            <button class="btn" id="copyReportBtn" type="button">复制日报</button>
+            <span class="copy-status" id="copyStatus"></span>
+          </div>
+        </div>
+        <div class="report-box" id="reportBlocks"></div>
+        <span class="report-copy-label">可直接复制发送的日报原文</span>
+        <textarea class="report-copy" id="reportText" readonly>-</textarea>
+      </section>
+    </main>
+  </div>
+
+  <script src="video-analysis/transcripts.js"></script>
+  <script src="video-analysis/frame-analysis.js"></script>
+  <script src="video-analysis/frame-overrides.js"></script>
+  <script src="video-analysis/script-insights.js"></script>
+  <script src="video-analysis/short-video-core-insights.js"></script>
+  <script src="video-analysis/visual-grounded-insights.js"></script>
+  <script src="video-analysis/visual-notes.js"></script>
+  <script src="video-analysis/semantic-audit-insights.js"></script>
+  <script src="video-analysis/manual-video-notes-2026-06-16.js"></script>
+  <script src="dashboard-data-index.js"></script>
+  <script src="dashboard-data.js"></script>
+  <script>
+    let dashboardData = window.dashboardData || window.DASHBOARD_DATA || null;
+    let dashboardTrendHistory = [];
+    let trendLoadToken = 0;
+    const dashboardFileCache = new Map();
+    const activeTrends = new Set(["live", "video", "roi"]);
+
+    const money = value => {
+      const num = Number(value) || 0;
+      return "¥" + num.toLocaleString("zh-CN", {
+        minimumFractionDigits: num >= 10000 ? 0 : 2,
+        maximumFractionDigits: num >= 10000 ? 0 : 2
+      });
+    };
+
+    const intNum = value => (Number(value) || 0).toLocaleString("zh-CN");
+    const ratio = value => ((Number(value) || 0) * 100).toFixed(1) + "%";
+    const roi = value => (Number(value) || 0).toFixed(2);
+    const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[char]));
+
+    const asList = value => {
+      if (Array.isArray(value)) return value.filter(item => item !== undefined && item !== null && String(item).trim());
+      if (typeof value === "string") {
+        return value
+          .split(/[、,，/|；;]+/)
+          .map(item => item.trim())
+          .filter(Boolean);
+      }
+      return [];
+    };
+
+    function coverStyle(url) {
+      return url ? `style="background-image:url('${url.replaceAll("'", "%27")}')"` : "";
+    }
+
+    function styleLabel(item = {}) {
+      const code = item.product_code || "";
+      const name = item.product_name || item.product || "";
+      const codeLines = String(code)
+        .split(/[\s,，、/]+/)
+        .map(value => value.trim())
+        .filter(Boolean);
+      const codeHtml = codeLines.length
+        ? `<span class="muted style-label-codes">${codeLines.map(value => `<span>${esc(value)}</span>`).join("")}</span>`
+        : "";
+      if (codeHtml && name && name !== "-") return `${esc(name)}<br>${codeHtml}`;
+      if (codeHtml) return codeHtml;
+      return `<span class="muted">未匹配</span>`;
+    }
+
+    function mainStyleLabel(room = {}) {
+      const style = (room.main_styles || [])[0];
+      if (!style) return `<span class="muted">未匹配</span>`;
+      return `${styleLabel(style)}<br><span class="muted">消耗 ${money(style.spend)}</span>`;
+    }
+
+    function roomById(roomId) {
+      return (dashboardData?.room_splits || []).find(room => String(room.room_id) === String(roomId)) || null;
+    }
+
+    function trendY(value, min, max) {
+      const ratioValue = Math.max(0, Math.min(1, (value - min) / (max - min || 1)));
+      return 156 - ratioValue * 112;
+    }
+
+    function updateSevenDayTrend(overview) {
+      const liveRatio = overview.total_spend ? overview.live_spend / overview.total_spend : 0;
+      const videoRatio = overview.total_spend ? overview.video_spend / overview.total_spend : 0;
+      const roiValue = Number(overview.roi) || 0;
+      const xs = [44, 160, 276, 392, 508, 624, 720];
+      const sourceTrend = dashboardTrendHistory.length ? dashboardTrendHistory : (dashboardData.trend_7d || []);
+      const trend = sourceTrend
+        .filter(item => !item.missing)
+        .slice(-7);
+      const fallbackTrend = [{ date: dashboardData?.date || "昨日", live_ratio: liveRatio, video_ratio: videoRatio, roi: roiValue }];
+      const visibleTrend = trend.length ? trend : fallbackTrend;
+      const liveValues = visibleTrend.map(item => Number(item.live_ratio) || 0);
+      const videoValues = visibleTrend.map(item => Number(item.video_ratio) || 0);
+      const roiValues = visibleTrend.map(item => Number(item.roi) || 0);
+      const activeXs = xs.slice(xs.length - liveValues.length);
+      const roiMin = Math.min(...roiValues, 35);
+      const roiMax = Math.max(...roiValues, 65);
+      const linePoints = {
+        live: liveValues.map((value, index) => `${activeXs[index]},${trendY(value, 0.30, 0.65).toFixed(1)}`).join(" "),
+        video: videoValues.map((value, index) => `${activeXs[index]},${trendY(value, 0.30, 0.65).toFixed(1)}`).join(" "),
+        roi: roiValues.map((value, index) => `${activeXs[index]},${trendY(value, roiMin, roiMax).toFixed(1)}`).join(" ")
+      };
+      document.querySelectorAll("[data-trend-line]").forEach(line => {
+        const key = line.dataset.trendLine;
+        line.setAttribute("points", linePoints[key] || "");
+        line.style.display = activeTrends.has(key) ? "" : "none";
+      });
+      document.querySelectorAll("[data-trend-legend]").forEach(legend => {
+        legend.style.display = activeTrends.has(legend.dataset.trendLegend) ? "" : "none";
+      });
+      const labels = document.querySelectorAll("#trendLabels text");
+      labels.forEach((label, index) => {
+        const item = visibleTrend[index];
+        if (!item || !activeXs[index]) {
+          label.style.display = "none";
+          return;
+        }
+        label.style.display = "";
+        label.setAttribute("x", String(activeXs[index] - 9));
+        label.textContent = item.date === dashboardData?.date ? "昨日" : String(item.date || "").slice(5);
+      });
+    }
+
+    function actionFor(item) {
+      if ((Number(item.roi) || 0) >= 30 && (Number(item.gmv) || 0) > 0) return "继续放量";
+      if ((Number(item.enter_room) || 0) >= 500 || (Number(item.room_count) || 0) >= 5) return "复刻拍摄";
+      return "观察";
+    }
+
+    function updateOverview() {
+      if (!dashboardData) {
+        document.getElementById("pageSubTitle").textContent = "未读取到 dashboard-data.js，请先运行抓数程序。";
+        return;
+      }
+      const overview = dashboardData.overview;
+      const liveRatio = overview.total_spend ? overview.live_spend / overview.total_spend : 0;
+      const videoRatio = overview.total_spend ? overview.video_spend / overview.total_spend : 0;
+      const otherRatio = Math.max(0, 1 - liveRatio - videoRatio);
+
+      document.getElementById("pageSubTitle").textContent =
+        `当前数据：${dashboardData.date}，直播 ${overview.live_room_count} 场，昨天发布作品 ${overview.published_video_count || overview.video_count} 条，聚合短视频 ${overview.aggregated_material_video_count} 条`;
+      document.getElementById("spendNote").textContent = overview.spend_note || "投流管理素材口径";
+      document.getElementById("kpiTotalSpend").textContent = money(overview.total_spend);
+      document.getElementById("kpiLiveSpend").textContent = money(overview.live_spend);
+      document.getElementById("kpiVideoSpend").textContent = money(overview.video_spend);
+      document.getElementById("kpiTotalGmv").textContent = money(overview.total_gmv);
+      document.getElementById("kpiRoi").textContent = roi(overview.roi);
+      document.getElementById("kpiWorks").textContent = `${overview.published_video_count || overview.video_count}条`;
+      document.getElementById("dateDelta").textContent = `数据日期 ${dashboardData.date}`;
+      document.getElementById("liveRatio").textContent = ratio(liveRatio);
+      document.getElementById("videoRatio").textContent = ratio(videoRatio);
+      document.getElementById("gmvSplit").textContent = `直播 ${money(overview.live_gmv)} / 短视频 ${money(overview.video_gmv)}`;
+      document.getElementById("roomCount").textContent = `直播场次 ${overview.live_room_count}`;
+      document.getElementById("materialCount").textContent = `素材记录 ${intNum(overview.material_row_count)}，聚合 ${intNum(overview.aggregated_material_video_count)}`;
+      document.getElementById("legendLive").textContent = money(overview.live_spend);
+      document.getElementById("legendVideo").textContent = money(overview.video_spend);
+      document.getElementById("legendOther").textContent = money(overview.other_spend);
+
+      const livePercent = Math.round(liveRatio * 100);
+      const videoPercent = Math.round(videoRatio * 100);
+      const donut = document.getElementById("spendDonut");
+      donut.dataset.label = `${livePercent}%`;
+      donut.style.background = `conic-gradient(var(--red) 0 ${livePercent}%, var(--cyan) ${livePercent}% ${livePercent + videoPercent}%, var(--amber) ${livePercent + videoPercent}% 100%)`;
+      donut.setAttribute("aria-label", `直播画面占比 ${livePercent}%，短视频占比 ${Math.round(videoRatio * 100)}%，其他占比 ${Math.round(otherRatio * 100)}%`);
+      updateSevenDayTrend(overview);
+    }
+
+    function renderLiveRows() {
+      if (!dashboardData) return;
+      const rows = [...dashboardData.room_splits].sort((a, b) => b.total_spend - a.total_spend).map((room, index) => `
+        <tr class="live-row" data-room-id="${esc(room.room_id)}">
+          <td><b>#${index + 1}</b> ${esc(room.room_id)}<br><span class="expand-hint">点击展开消耗TOP5视频</span></td>
+          <td>${room.anchor || "-"}</td>
+          <td>${room.start_time || "-"}</td>
+          <td>${mainStyleLabel(room)}</td>
+          <td class="num">${money(room.total_spend)}</td>
+          <td class="num">${money(room.live_screen_spend)}</td>
+          <td class="num">${money(room.short_video_spend)}</td>
+          <td class="num">${ratio(room.total_spend ? room.short_video_spend / room.total_spend : 0)}</td>
+          <td class="num">${money(room.total_gmv)}</td>
+          <td class="num">${roi(room.live_screen_roi)}</td>
+          <td class="num">${roi(room.short_video_roi)}</td>
+          <td class="num">${intNum(room.material_count)}</td>
+        </tr>
+        <tr class="detail-row live-detail-row" hidden>
+          <td colspan="12">${renderRoomTopVideos(room)}</td>
+        </tr>
+      `).join("");
+      document.getElementById("liveRows").innerHTML = rows;
+    }
+
+    function roomHours(room = {}) {
+      const start = room.start_time ? new Date(String(room.start_time).replace(" ", "T")) : null;
+      const end = room.end_time ? new Date(String(room.end_time).replace(" ", "T")) : null;
+      return start && end && end > start ? (end - start) / 36e5 : 0;
+    }
+
+    function safeDiv(a, b) {
+      return b ? a / b : 0;
+    }
+
+    function roomLiveDiagnosis(room, avg = {}) {
+      const videoRatio = safeDiv(Number(room.short_video_spend) || 0, Number(room.total_spend) || 0);
+      const videoCtr = Number(room.short_video_ctr) || 0;
+      const videoCvr = Number(room.short_video_cvr) || 0;
+      const videoRoi = Number(room.short_video_roi) || 0;
+      const liveRoi = Number(room.live_screen_roi) || 0;
+      const videoClicks = Number(room.short_video_clicks) || 0;
+      if (videoRatio >= 0.65 && videoCtr < avg.videoCtr) {
+        return { tag: "泛流量", tone: "warn", advice: "短视频曝光在放大，但点击率低于均值，优先换首屏钩子或利益点。" };
+      }
+      if (videoClicks >= avg.videoClicks && videoCvr < avg.videoCvr * 0.9) {
+        return { tag: "承接弱", tone: "risk", advice: "短视频能带进房，但成交转化弱，需要检查主播话术、主推款和直播间承接。" };
+      }
+      if (videoRoi >= 25 && videoCvr >= avg.videoCvr) {
+        return { tag: "可放量", tone: "good", advice: "短视频ROI和转化都能承接，可继续给优质素材加预算。" };
+      }
+      if (liveRoi >= 60 && videoRatio < 0.55) {
+        return { tag: "补直播画面", tone: "info", advice: "直播画面ROI较强，可适度补直播画面消耗，稳定成交盘。" };
+      }
+      return { tag: "观察", tone: "info", advice: "结构暂时稳定，继续观察CTR、CVR和小时GMV变化。" };
+    }
+
+    function aggregateLiveAnalysis(rooms = []) {
+      const total = rooms.reduce((acc, room) => {
+        acc.spend += Number(room.total_spend) || 0;
+        acc.gmv += Number(room.total_gmv) || 0;
+        acc.hours += roomHours(room);
+        acc.liveImpressions += Number(room.live_screen_impressions) || 0;
+        acc.liveClicks += Number(room.live_screen_clicks) || 0;
+        acc.liveOrders += Number(room.live_screen_orders) || 0;
+        acc.videoImpressions += Number(room.short_video_impressions) || 0;
+        acc.videoClicks += Number(room.short_video_clicks) || 0;
+        acc.videoOrders += Number(room.short_video_orders) || 0;
+        acc.videoSpend += Number(room.short_video_spend) || 0;
+        acc.videoGmv += Number(room.short_video_gmv) || 0;
+        return acc;
+      }, { spend: 0, gmv: 0, hours: 0, liveImpressions: 0, liveClicks: 0, liveOrders: 0, videoImpressions: 0, videoClicks: 0, videoOrders: 0, videoSpend: 0, videoGmv: 0 });
+      return {
+        ...total,
+        liveCtr: safeDiv(total.liveClicks, total.liveImpressions),
+        liveCvr: safeDiv(total.liveOrders, total.liveClicks),
+        videoCtr: safeDiv(total.videoClicks, total.videoImpressions),
+        videoCvr: safeDiv(total.videoOrders, total.videoClicks),
+        videoRoi: safeDiv(total.videoGmv, total.videoSpend),
+        videoClicksAvg: safeDiv(total.videoClicks, rooms.length),
+      };
+    }
+
+    function adviceCard(title, text) {
+      return `<article class="advice-card"><b>${esc(title)}</b><p>${text}</p></article>`;
+    }
+
+    function renderLiveAnalysis() {
+      if (!dashboardData) return;
+      const rooms = [...(dashboardData.room_splits || [])].filter(room => Number(room.total_spend) > 0);
+      const overview = dashboardData.overview || {};
+      const avg = aggregateLiveAnalysis(rooms);
+      const avgForRoom = { videoCtr: avg.videoCtr, videoCvr: avg.videoCvr, videoClicks: avg.videoClicksAvg };
+      const diagnosed = rooms.map(room => ({ room, diagnosis: roomLiveDiagnosis(room, avgForRoom), hours: roomHours(room) }));
+      const healthyRooms = diagnosed.filter(({ room }) => (Number(room.short_video_roi) || 0) >= 25 && (Number(room.short_video_cvr) || 0) >= avg.videoCvr);
+      const weakRooms = diagnosed.filter(({ diagnosis }) => diagnosis.tag === "承接弱");
+      const liveSupportRooms = diagnosed.filter(({ diagnosis }) => diagnosis.tag === "补直播画面");
+      document.getElementById("liveScreenQuality").textContent = `${ratio(avg.liveCtr)} / ${ratio(avg.liveCvr)}`;
+      document.getElementById("liveScreenQualityNote").textContent = `曝光 ${intNum(avg.liveImpressions)}，点击 ${intNum(avg.liveClicks)}`;
+      document.getElementById("shortVideoQuality").textContent = `${ratio(avg.videoCtr)} / ${ratio(avg.videoCvr)}`;
+      document.getElementById("shortVideoQualityNote").textContent = `曝光 ${intNum(avg.videoImpressions)}，点击 ${intNum(avg.videoClicks)}`;
+      document.getElementById("hourEfficiency").textContent = `${money(safeDiv(Number(overview.total_gmv) || avg.gmv, avg.hours))} / ${money(safeDiv(Number(overview.total_spend) || avg.spend, avg.hours))}`;
+      document.getElementById("hourEfficiencyNote").textContent = `直播总时长 ${avg.hours ? avg.hours.toFixed(1) : "0"} 小时`;
+      document.getElementById("liveHealthScore").textContent = `${healthyRooms.length}/${rooms.length} 场`;
+      document.getElementById("liveHealthNote").textContent = `短视频ROI≥25且CVR不低于均值`;
+      const bestRoom = healthyRooms.sort((a, b) => (Number(b.room.short_video_gmv) || 0) - (Number(a.room.short_video_gmv) || 0))[0]?.room;
+      const weakRoom = weakRooms.sort((a, b) => (Number(b.room.short_video_clicks) || 0) - (Number(a.room.short_video_clicks) || 0))[0]?.room;
+      const supportRoom = liveSupportRooms.sort((a, b) => (Number(b.room.live_screen_roi) || 0) - (Number(a.room.live_screen_roi) || 0))[0]?.room;
+      document.getElementById("liveAdviceCards").innerHTML = [
+        adviceCard("短视频可继续放量", bestRoom ? `${bestRoom.anchor || "-"}｜${bestRoom.room_id}：短视频ROI ${roi(bestRoom.short_video_roi)}，CVR ${ratio(bestRoom.short_video_cvr)}，优先承接同款优质素材。` : "暂无明显达到放量阈值的场次，先观察短视频CTR和CVR。"),
+        adviceCard("进房后承接需优化", weakRoom ? `${weakRoom.anchor || "-"}｜${weakRoom.room_id}：短视频点击 ${intNum(weakRoom.short_video_clicks)}，但CVR ${ratio(weakRoom.short_video_cvr)}，建议复盘主播话术和主推款匹配。` : "暂无明显进房多但成交弱的场次。"),
+        adviceCard("直播画面可补量", supportRoom ? `${supportRoom.anchor || "-"}｜${supportRoom.room_id}：直播画面ROI ${roi(supportRoom.live_screen_roi)}，可适度补直播画面预算稳成交。` : "暂无明显需要补直播画面消耗的场次。")
+      ].join("");
+      const rows = diagnosed
+        .sort((a, b) => (Number(b.room.total_gmv) || 0) - (Number(a.room.total_gmv) || 0))
+        .map(({ room, diagnosis, hours }, index) => `
+          <tr>
+            <td><b>#${index + 1}</b> ${esc(room.room_id)}<br><span class="muted">${esc(room.start_time || "-")}</span></td>
+            <td>${esc(room.anchor || "-")}</td>
+            <td>${mainStyleLabel(room)}</td>
+            <td class="num">${ratio(safeDiv(Number(room.short_video_spend) || 0, Number(room.total_spend) || 0))}</td>
+            <td class="num">${ratio(room.live_screen_ctr)}</td>
+            <td class="num">${ratio(room.live_screen_cvr)}</td>
+            <td class="num">${ratio(room.short_video_ctr)}</td>
+            <td class="num">${ratio(room.short_video_cvr)}</td>
+            <td class="num">${money(safeDiv(Number(room.total_gmv) || 0, hours))}</td>
+            <td class="num">${roi(room.short_video_roi)}</td>
+            <td><span class="tag ${diagnosis.tone}">${diagnosis.tag}</span></td>
+            <td>${esc(diagnosis.advice)}</td>
+          </tr>
+        `).join("");
+      document.getElementById("liveAnalysisRows").innerHTML = rows || `<tr><td colspan="12" class="muted">暂无直播承接数据</td></tr>`;
+    }
+
+    function roomTopVideos(room) {
+      return [...(dashboardData.material_all || [])]
+        .map(item => {
+          const detail = (item.room_details || []).find(row => String(row.room_id) === String(room.room_id));
+          return detail ? { item, detail } : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => Number(b.detail.spend || 0) - Number(a.detail.spend || 0))
+        .slice(0, 5);
+    }
+
+    function renderRoomTopVideos(room) {
+      const videos = roomTopVideos(room);
+      if (!videos.length) {
+        return `<div class="detail-panel" style="padding:14px 16px;color:var(--muted)">暂无短视频消耗明细</div>`;
+      }
+      return `
+        <div class="table-wrap detail-panel">
+          <table class="detail-table live-top-table">
+            <thead>
+              <tr>
+                <th>封面</th>
+                <th>视频</th>
+                <th>款式</th>
+                <th>本场消耗</th>
+                <th>本场GMV</th>
+                <th>本场ROI</th>
+                <th>点击/进房</th>
+                <th>展示量</th>
+                <th>CPM</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${videos.map(({ item, detail }, index) => `
+                <tr>
+                  <td><div class="cover" ${coverStyle(item.cover_url)}></div></td>
+                  <td class="title-cell"><b>#${index + 1}</b> ${esc(item.title || item.video_id)}<br><span class="muted">${esc(item.video_id)}</span></td>
+                  <td>${styleLabel(item)}</td>
+                  <td class="num"><b>${money(detail.spend)}</b></td>
+                  <td class="num">${money(detail.gmv)}</td>
+                  <td class="num">${roi(detail.roi)}</td>
+                  <td class="num">${intNum(detail.clicks)}</td>
+                  <td class="num">${intNum(detail.impressions)}</td>
+                  <td class="num">${money(detail.cpm)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function materialList(mode = "spend") {
+      const rows = [...(dashboardData.material_all || dashboardData.spend_top20 || [])];
+      if (mode === "sales") return rows.sort((a, b) => (Number(b.gmv) || 0) - (Number(a.gmv) || 0)).slice(0, 10);
+      if (mode === "traffic") return rows.sort((a, b) => (Number(b.enter_room) || 0) - (Number(a.enter_room) || 0)).slice(0, 10);
+      if (mode === "roi") return rows.filter(item => Number(item.spend) > 30).sort((a, b) => (Number(b.roi) || 0) - (Number(a.roi) || 0)).slice(0, 10);
+      if (mode === "cpm") return rows.filter(item => Number(item.spend) > 30).sort((a, b) => (Number(a.cpm) || 0) - (Number(b.cpm) || 0)).slice(0, 10);
+      return rows.sort((a, b) => (Number(b.spend) || 0) - (Number(a.spend) || 0)).slice(0, 10);
+    }
+
+    function parseLocalDate(value) {
+      if (!value) return null;
+      const date = new Date(String(value).replace(" ", "T"));
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function startOfDate(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function daysFromDataDate(value) {
+      const base = parseLocalDate(dashboardData?.date);
+      const publish = parseLocalDate(value);
+      if (!base || !publish) return null;
+      return Math.round((startOfDate(base) - startOfDate(publish)) / 86400000);
+    }
+
+    function isRecentMaterial(item) {
+      const diff = daysFromDataDate(item.publish_time);
+      return diff !== null && diff >= 0 && diff <= 2;
+    }
+
+    function newMaterialList(mode = "spend") {
+      const rows = uniqueByVideo([...(dashboardData.material_all || [])]).filter(isRecentMaterial);
+      if (mode === "sales") return rows.sort((a, b) => (Number(b.gmv) || 0) - (Number(a.gmv) || 0)).slice(0, 5);
+      if (mode === "traffic") return rows.sort((a, b) => (Number(b.enter_room) || 0) - (Number(a.enter_room) || 0)).slice(0, 5);
+      if (mode === "roi") return rows.filter(item => Number(item.spend) > 30).sort((a, b) => (Number(b.roi) || 0) - (Number(a.roi) || 0)).slice(0, 5);
+      if (mode === "cpm") return rows.filter(item => Number(item.spend) > 30).sort((a, b) => (Number(a.cpm) || 0) - (Number(b.cpm) || 0)).slice(0, 5);
+      return rows.sort((a, b) => (Number(b.spend) || 0) - (Number(a.spend) || 0)).slice(0, 5);
+    }
+
+    function diagnoseNewMaterial(item) {
+      const spendValue = Number(item.spend) || 0;
+      const recentSpend = Number(item.recent_3d_spend) || spendValue;
+      const roiValue = Number(item.roi) || 0;
+      const gmvValue = Number(item.gmv) || 0;
+      const clickValue = Number(item.enter_room) || 0;
+      if (spendValue >= 100 && roiValue >= 30 && gmvValue >= 3000) {
+        return { key: "scale", label: "新素材起量", reason: "近三天新发且消耗、成交、ROI都跑出苗头，优先补抽帧并复刻变体。" };
+      }
+      if ((clickValue >= 500 || recentSpend >= 100) && roiValue >= 12) {
+        return { key: "copy", label: "可继续验证", reason: "已经有进房或消耗，且高于保本ROI，适合继续看下一轮放量。" };
+      }
+      if (spendValue >= 100 && roiValue < 12) {
+        return { key: "watch", label: "承接偏弱", reason: "有消耗但低于保本ROI，先检查直播承接、款式和开头卖点是否错位。" };
+      }
+      return { key: "seed", label: "小量观察", reason: "发布时间还近，样本偏小，先继续观察消耗、CTR/CVR和进房变化。" };
+    }
+
+    function renderNewMaterialSummary(allRows, visibleRows) {
+      const summary = document.getElementById("newMaterialSummary");
+      if (!summary) return;
+      const activeRows = allRows.filter(item => Number(item.spend) > 0);
+      const scaleRows = allRows.filter(item => diagnoseNewMaterial(item).key === "scale");
+      const bestSpend = [...allRows].sort((a, b) => (Number(b.spend) || 0) - (Number(a.spend) || 0))[0];
+      const bestRoi = [...allRows].filter(item => Number(item.spend) > 30).sort((a, b) => (Number(b.roi) || 0) - (Number(a.roi) || 0))[0];
+      summary.innerHTML = `
+        <span>近三天发布 <b>${allRows.length}</b> 条</span>
+        <span>已有消耗 <b>${activeRows.length}</b> 条</span>
+        <span>起量苗头 <b>${scaleRows.length}</b> 条</span>
+        <span>最高消耗 <b>${bestSpend ? money(bestSpend.spend) : "-"}</b></span>
+        <span>最高ROI <b>${bestRoi ? roi(bestRoi.roi) : "-"}</b></span>
+        <span>当前显示 <b>${visibleRows.length}</b> 条</span>
+      `;
+    }
+
+    function renderNewMaterialRows(mode = "spend") {
+      if (!dashboardData) return;
+      const allRows = uniqueByVideo([...(dashboardData.material_all || [])]).filter(isRecentMaterial);
+      const rowsForMode = newMaterialList(mode);
+      renderNewMaterialSummary(allRows, rowsForMode);
+      const target = document.getElementById("newMaterialRows");
+      if (!target) return;
+      if (!rowsForMode.length) {
+        target.innerHTML = `<tr><td colspan="12" class="muted">当前日期近三天内暂无新发布素材或暂无投放数据</td></tr>`;
+        return;
+      }
+      target.innerHTML = rowsForMode.map((item, index) => {
+        const diagnosis = diagnoseNewMaterial(item);
+        return `
+          <tr class="new-material-row" data-video-id="${esc(item.video_id)}">
+            <td><div class="cover" ${coverStyle(item.cover_url)}></div></td>
+            <td class="title-cell"><b>#${index + 1}</b> ${esc(item.title || item.video_id)}<br><span class="muted">${esc(item.video_id || "-")}</span><br><span class="expand-hint">点击展开直播场次明细</span></td>
+            <td>${esc(item.publish_time || "-")}</td>
+            <td class="num"><b>${money(item.spend)}</b></td>
+            <td class="num"><b>${money(item.recent_3d_spend || item.spend)}</b></td>
+            <td class="num">${money(item.gmv)}</td>
+            <td class="num">${roi(item.roi)}</td>
+            <td class="num">${intNum(item.enter_room)}</td>
+            <td class="num">${intNum(item.live_room_impression)}</td>
+            <td class="num">${money(item.cpm)}</td>
+            <td>${styleLabel(item)}</td>
+            <td>${diagnosisBadge(diagnosis)}<br><span class="muted">${esc(diagnosis.reason)}</span></td>
+          </tr>
+          <tr class="detail-row new-material-detail-row" hidden>
+            <td colspan="12">${renderRoomDetails(item)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function diagnoseMaterial(item) {
+      const spendValue = Number(item.spend) || 0;
+      const roiValue = Number(item.roi) || 0;
+      const gmvValue = Number(item.gmv) || 0;
+      const clickValue = Number(item.enter_room) || 0;
+      const cpmValue = Number(item.cpm) || 0;
+      const roomValue = Number(item.room_count) || 0;
+      if (spendValue >= 100 && roiValue < 12) {
+        return { key: "stop", label: "停投风险", reason: "ROI低于保本线12，消耗已有量级时优先降预算或暂停观察。" };
+      }
+      if (spendValue >= 100 && roiValue >= 30 && gmvValue >= 5000) {
+        return { key: "scale", label: "继续放量", reason: "ROI和成交金额都达标，适合继续加热，并保留同结构素材。" };
+      }
+      if ((clickValue >= 800 || roomValue >= 5) && roiValue >= 12) {
+        return { key: "copy", label: "复刻拍摄", reason: "ROI高于保本线12，且多场直播或点击/进房表现稳定，适合复刻内容结构。" };
+      }
+      if (spendValue >= 100 && roiValue < 20) {
+        return { key: "watch", label: "观察降预算", reason: "ROI高于保本线但效率一般，建议控预算并优化开头或卖点顺序。" };
+      }
+      return { key: "seed", label: "小量观察", reason: "当前消耗样本还小，先观察下一轮投放表现，再决定是否放量。" };
+    }
+
+    function diagnosisBadge(diagnosis) {
+      return `<span class="diagnosis-badge ${diagnosis.key}">${diagnosis.label}</span>`;
+    }
+
+    function renderRoomDetails(item) {
+      const details = item.room_details || [];
+      if (!details.length) {
+        return `<div class="detail-panel" style="padding:14px 16px;color:var(--muted)">暂无分场次明细</div>`;
+      }
+      return `
+        <div class="table-wrap detail-panel">
+          <table class="detail-table material-room-table">
+            <thead>
+              <tr>
+                <th>直播场次</th>
+                <th>主播</th>
+                <th>开播时间</th>
+                <th>直播主推款</th>
+                <th>本场消耗</th>
+                <th>本场GMV</th>
+                <th>本场ROI</th>
+                <th>展示量</th>
+                <th>点击/进房</th>
+                <th>CPM</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${details.map((detail, index) => `
+                <tr>
+                  <td>#${index + 1} ${esc(detail.room_id)}</td>
+                  <td>${esc(detail.anchor || "-")}</td>
+                  <td>${esc(detail.start_time || "-")}</td>
+                  <td>${mainStyleLabel(roomById(detail.room_id) || {})}</td>
+                  <td class="num"><b>${money(detail.spend)}</b></td>
+                  <td class="num">${money(detail.gmv)}</td>
+                  <td class="num">${roi(detail.roi)}</td>
+                  <td class="num">${intNum(detail.impressions)}</td>
+                  <td class="num">${intNum(detail.clicks)}</td>
+                  <td class="num">${money(detail.cpm)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderMaterialRows(mode = "spend") {
+      if (!dashboardData) return;
+      const rows = materialList(mode).map((item, index) => `
+        <tr class="material-row" data-video-id="${esc(item.video_id)}">
+          <td><div class="cover" ${coverStyle(item.cover_url)}></div></td>
+          <td class="title-cell"><b>#${index + 1}</b> ${esc(item.title || item.video_id)}<br><span class="muted">${esc(item.video_id)}${item.publish_time ? " · " + esc(item.publish_time) : ""}</span><br><span class="expand-hint">点击展开场次明细</span></td>
+          <td class="num"><b>${money(item.spend)}</b></td>
+          <td class="num">${money(item.max_single_spend)}</td>
+          <td class="num">${money(item.gmv)}</td>
+          <td class="num">${roi(item.roi)}</td>
+          <td class="num">${intNum(item.enter_room)}</td>
+          <td class="num">${intNum(item.live_room_impression)}</td>
+          <td class="num">${money(item.cpm)}</td>
+          <td>${styleLabel(item)}</td>
+          <td>${diagnosisBadge(diagnoseMaterial(item))}</td>
+          <td class="num"><b>${money(item.recent_3d_spend || item.spend)}</b></td>
+        </tr>
+        <tr class="detail-row material-detail-row" hidden>
+          <td colspan="12">${renderRoomDetails(item)}</td>
+        </tr>
+      `).join("");
+      document.getElementById("materialRows").innerHTML = rows;
+    }
+
+    function styleAdvice(style) {
+      if (style.spend >= 100 && style.roi >= 30 && style.gmv >= 5000) {
+        return { key: "scale", label: "继续加热", reason: "成交和ROI都稳，优先围绕该款继续拍短视频。" };
+      }
+      if (style.spend >= 100 && style.roi >= 12 && style.video_count >= 5) {
+        return { key: "copy", label: "继续复刻", reason: "高于保本线且素材覆盖足，适合复刻不同场景。" };
+      }
+      if (style.spend >= 100 && style.roi < 12) {
+        return { key: "stop", label: "控投放", reason: "低于保本线，先降预算或换脚本。" };
+      }
+      return { key: "seed", label: "补样本", reason: "样本偏小，先补拍或小预算验证。" };
+    }
+
+    function styleSummaryList() {
+      const groups = new Map();
+      for (const item of dashboardData.material_all || []) {
+        const code = (item.product_code || "").trim();
+        if (!code) continue;
+        if (!groups.has(code)) {
+          groups.set(code, {
+            product_code: code,
+            product_name: item.product_name || item.product || "-",
+            spend: 0,
+            gmv: 0,
+            orders: 0,
+            enter_room: 0,
+            videos: new Set(),
+            rooms: new Set(),
+          });
+        }
+        const group = groups.get(code);
+        group.spend += Number(item.spend) || 0;
+        group.gmv += Number(item.gmv) || 0;
+        group.orders += Number(item.orders) || 0;
+        group.enter_room += Number(item.enter_room) || 0;
+        group.videos.add(item.video_id);
+        (item.room_ids || []).forEach(roomId => group.rooms.add(roomId));
+      }
+      return [...groups.values()].map(group => {
+        const style = {
+          product_code: group.product_code,
+          product_name: group.product_name,
+          spend: group.spend,
+          gmv: group.gmv,
+          orders: group.orders,
+          enter_room: group.enter_room,
+          video_count: group.videos.size,
+          room_count: group.rooms.size,
+          roi: group.spend ? group.gmv / group.spend : 0,
+        };
+        style.advice = styleAdvice(style);
+        return style;
+      }).sort((a, b) => Number(b.spend || 0) - Number(a.spend || 0)).slice(0, 5);
+    }
+
+    function renderStyleRows() {
+      if (!dashboardData) return;
+      const rows = styleSummaryList().map(style => `
+        <tr>
+          <td class="style-code"><b>${esc(style.product_code)}</b></td>
+          <td>${esc(style.product_name || "-")}</td>
+          <td class="num"><b>${money(style.spend)}</b></td>
+          <td class="num">${money(style.gmv)}</td>
+          <td class="num">${roi(style.roi)}</td>
+          <td class="num">${intNum(style.enter_room)}</td>
+          <td class="num">${intNum(style.orders)}</td>
+          <td class="num">${intNum(style.video_count)}</td>
+          <td class="num">${intNum(style.room_count)}</td>
+          <td class="style-advice">${diagnosisBadge(style.advice)}<br><span class="muted">${esc(style.advice.reason)}</span></td>
+        </tr>
+      `).join("");
+      document.getElementById("styleRows").innerHTML = rows || `<tr><td colspan="10" class="muted">暂无可匹配的款式数据</td></tr>`;
+    }
+
+    function diagnosisItem(item, diagnosis = diagnoseMaterial(item)) {
+      return `
+        <div class="diagnosis-item">
+          <b>${esc(item.title || item.video_id)} ${diagnosisBadge(diagnosis)}</b>
+          <div class="diagnosis-meta">
+            <span>消耗 ${money(item.spend)}</span>
+            <span>GMV ${money(item.gmv)}</span>
+            <span>ROI ${roi(item.roi)}</span>
+            <span>点击 ${intNum(item.enter_room)}</span>
+            <span>CPM ${money(item.cpm)}</span>
+            <span>近3天 ${money(item.recent_3d_spend || item.spend)}</span>
+          </div>
+          <div class="muted" style="margin-top:6px;font-size:12px">${esc(diagnosis.reason)}</div>
+        </div>
+      `;
+    }
+
+    function uniqueByVideo(items) {
+      const seen = new Set();
+      return (items || []).filter(item => {
+        if (seen.has(item.video_id)) return false;
+        seen.add(item.video_id);
+        return true;
+      });
+    }
+
+    function renderDiagnosis() {
+      if (!dashboardData) return;
+      const rows = uniqueByVideo([...(dashboardData.material_all || dashboardData.spend_top20 || [])])
+        .map(item => ({ ...item, diagnosis: diagnoseMaterial(item) }));
+      const scale = rows
+        .filter(item => item.diagnosis.key === "scale")
+        .sort((a, b) => (Number(b.gmv) || 0) - (Number(a.gmv) || 0))
+        .slice(0, 3);
+      const copy = rows
+        .filter(item => item.diagnosis.key === "copy")
+        .sort((a, b) => (Number(b.enter_room) || 0) - (Number(a.enter_room) || 0))
+        .slice(0, 3);
+      const watch = rows
+        .filter(item => item.diagnosis.key === "stop" || item.diagnosis.key === "watch")
+        .sort((a, b) => (Number(b.spend) || 0) - (Number(a.spend) || 0))
+        .slice(0, 3);
+
+      document.getElementById("scaleList").innerHTML = scale.map(item => diagnosisItem(item, item.diagnosis)).join("") || `<div class="diagnosis-item muted">暂无达到放量阈值的素材</div>`;
+      document.getElementById("copyList").innerHTML = copy.map(item => diagnosisItem(item, item.diagnosis)).join("") || `<div class="diagnosis-item muted">暂无达到复刻阈值的素材</div>`;
+      document.getElementById("watchList").innerHTML = watch.map(item => diagnosisItem(item, item.diagnosis)).join("") || `<div class="diagnosis-item muted">暂无明显控成本风险</div>`;
+    }
+
+    function renderFrameAnalysis() {
+      const target = document.getElementById("frameAnalysis");
+      const transcriptMap = window.videoTranscripts || {};
+      const frameOverrideMap = window.videoFrameOverrides || {};
+      const scriptInsightMap = window.videoScriptInsights || {};
+      const visualNoteMap = window.videoVisualNotes || {};
+      const analysisMap = new Map((window.videoFrameAnalysis || []).map(item => [String(item.video_id), item]));
+      const frameMaterials = materialList("spend").slice(0, 10);
+      const rows = frameMaterials.map((material, index) => {
+        const videoId = String(material.video_id || "");
+        const base = analysisMap.get(videoId) || {};
+        return {
+          ...base,
+          ...material,
+          rank: index + 1,
+          style_name: material.product_name || material.product || base.style_name,
+          style_code: material.product_code || base.style_code,
+          ...(scriptInsightMap[videoId] || {}),
+          ...(transcriptMap[videoId] || {}),
+          ...(frameOverrideMap[videoId] || {}),
+          ...(visualNoteMap[videoId] || {})
+        };
+      });
+      if (!target || !rows.length) {
+        if (target) target.innerHTML = "";
+        return;
+      }
+      target.innerHTML = `
+        <div class="section-head" style="margin-top:4px">
+          <div>
+            <h3>视频内容拆解样本</h3>
+            <small>基于当前日期短视频TOP10抽帧；无字幕素材必须结合画面动作和音频转写判断，标题只作辅助</small>
+          </div>
+          <small>当前样本 ${rows.length} 条</small>
+        </div>
+        ${rows.map(item => `
+          <article class="frame-card ${isCoreAnalysisItem(item) ? "core-mode" : ""}">
+            <div class="frame-card-head">
+              <div>
+                <b>${esc(item.title || item.product_focus || item.video_id)}</b>
+                <div class="frame-title-meta">
+                  <span class="frame-tag">TOP${esc(item.rank || "-")}</span>
+                  <span class="frame-tag">款式：${esc(item.style_name || item.product_focus || "-")}</span>
+                  <span class="frame-tag">款号：${esc(item.style_code || "-")}</span>
+                </div>
+              </div>
+              <span class="frame-id">
+                <span><strong>视频ID：</strong>${esc(item.video_id || "-")}</span>
+                <span><strong>素材ID：</strong>${esc(item.material_id || "-")}</span>
+              </span>
+            </div>
+            <div class="frame-body">
+              <div class="frame-strip">
+                ${(item.frames || []).length
+                  ? (item.frames || []).map(src => `<img src="${esc(src)}" alt="${esc(item.video_id)} 抽帧">`).join("")
+                  : `<div class="empty-frame">暂无预览帧<br><span>${esc(item.video_id || "-")}</span></div>`}
+              </div>
+              <div class="frame-info">
+                <div class="frame-tags">
+                  <span class="frame-tag">开头：${esc(scriptOpening(item))}</span>
+                  <span class="frame-tag">场景：${esc(item.scene)}</span>
+                  <span class="frame-tag">模特：${esc(item.model_type)}</span>
+                  ${asList(item.selling_points).map(point => `<span class="frame-tag">${esc(point)}</span>`).join("")}
+                </div>
+                <div class="script-evidence">
+                  <span class="script-status ${item.script_interpretation ? "done" : ""}">${item.script_interpretation ? "AI脚本理解" : (item.transcript_text ? "已转写待理解" : "待音频转写")}</span>
+                  <div><b>整体拆解：</b>${esc(videoContentJudgement(item))}</div>
+                  <div><b>内容卖点：</b>${esc(contentSellingPoints(item))}</div>
+                  <div><b>画面证据：</b>${esc(item.frame_strategy || item.visual_evidence || "已抽取开头和卖点关键帧，用于判断场景、商品动作和镜头节奏。")}</div>
+                </div>
+                ${isCoreAnalysisItem(item) ? "" : `
+                  <div class="script-timeline">
+                    ${scriptTimelineRows(item).map(row => `
+                      <div class="timeline-row">
+                        <span class="timeline-time">${esc(row.time)}</span>
+                        <span class="timeline-axis"><i class="timeline-dot"></i></span>
+                        <span class="timeline-main">
+                          <span class="timeline-stage">${esc(row.stage)}</span>
+                          <span class="timeline-detail">${esc(row.detail)}</span>
+                        </span>
+                      </div>
+                    `).join("")}
+                  </div>
+                `}
+                <div class="frame-deep-grid">
+                  ${scriptDeepCards(item).map(card => `
+                    <div class="frame-deep-item ${card.wide ? "wide" : ""}"><b>${esc(card.title)}</b>${deepCardBodyHtml(card)}</div>
+                  `).join("")}
+                </div>
+                <div class="content-read"><b>内容公式：</b>${esc(scriptFormula(item))}<br><b>复刻建议：</b>${esc(scriptReplicateAdvice(item))}</div>
+              </div>
+            </div>
+          </article>
+        `).join("")}
+      `;
+    }
+
+    function deepCardBodyHtml(card = {}) {
+      const body = String(card.body || "");
+      return esc(body);
+    }
+
+    function isCoreAnalysisItem(item = {}) {
+      return Boolean(item.core_analysis_cards?.length || item.storyboards?.length);
+    }
+
+    function scriptFrameSteps(item) {
+      if (item.storyboards && item.storyboards.length) {
+        return item.storyboards.map(row => {
+          const start = Number(row.start).toFixed(1).replace(".0", "");
+          const end = Number(row.end).toFixed(1).replace(".0", "");
+          return `${start}-${end}秒｜${row.node || `分镜${row.index || ""}`}`;
+        });
+      }
+      if (item.frame_nodes && item.frame_nodes.length) {
+        return item.frame_nodes.map((node, index) => {
+          const time = item.frame_times?.[index];
+          const timeText = Number.isFinite(Number(time)) ? `${Number(time).toFixed(1).replace(".0", "")}秒` : `镜头${index + 1}`;
+          return `${timeText}：${node}`;
+        });
+      }
+      const points = asList(item.reliable_points).length ? asList(item.reliable_points) : asList(item.selling_points);
+      const mainPoint = points[0] || scriptOpening(item) || "核心卖点";
+      const secondPoint = points[1] || item.product_focus || "款式展示";
+      const proofPoint = points.find(point => /拉扯|不易变形|不透|透气|面料|工艺|坑条|网眼/.test(point)) || item.product_focus || "产品证明";
+      const formula = item.script_formula || item.content_formula || "";
+      const labels = ["开头", "早段", "卖点", "中段", "后段"];
+      const defaults = [
+        `${labels[0]}：用「${scriptOpening(item) || mainPoint}」切入，先让用户知道这条视频解决什么穿搭问题。`,
+        `${labels[1]}：用上身/手持画面建立款式记忆，突出「${secondPoint}」。`,
+        `${labels[2]}：把口播里的可信卖点落到画面动作，重点讲「${mainPoint}」。`,
+        `${labels[3]}：进入证明镜头，围绕「${proofPoint}」展示面料、版型或工艺。`,
+        `${labels[4]}：用适合人群/穿着结果收口，方便复刻成同款不同版本。`
+      ];
+      if (!item.frames || item.frames.length < 5) return item.shot_structure || defaults.slice(0, 3);
+      return defaults.map((text, index) => {
+        const suffix = formula ? `｜公式节点：${formula.split("→")[index]?.trim() || labels[index]}` : "";
+        return `${text}${suffix}`;
+      });
+    }
+
+    function splitStage(node = "") {
+      const text = String(node || "");
+      const parts = text.split("：");
+      if (parts.length > 1) return { stage: parts[0].trim(), detail: parts.slice(1).join("：").trim() };
+      return { stage: text.trim() || "分镜", detail: "" };
+    }
+
+    function titleLeadText(item) {
+      return String(item.title || "").split("#")[0].trim();
+    }
+
+    function titleLedText(item, text = "") {
+      const lead = titleLeadText(item);
+      if (!lead || lead.length < 6) return false;
+      return String(text || "").includes(lead);
+    }
+
+    function titleLedCards(item, cards = []) {
+      const body = cards.map(card => `${card.title || ""} ${card.body || ""}`).join("\n");
+      return titleLedText(item, body);
+    }
+
+    function usableTranscript(item) {
+      const text = String(item.transcript_text || item.transcript_digest || "").trim();
+      if (!text) return false;
+      if (text.length < 8 && !item.storyboards?.length) return false;
+      return reliableEvidenceText(text, item.transcript_status);
+    }
+
+    const EVIDENCE_WORDS_UTF8 = [
+      "显瘦", "显白", "显背薄", "遮肉", "小个子", "手臂", "腰", "版型",
+      "凉感", "怕热", "夏天", "透气", "速干", "不透色", "薄而不透",
+      "曲珠冰麻纱", "冰麻纱", "冰丝", "网眼", "坑条", "扣眼", "纹理", "提花", "工艺",
+      "弹力", "拉扯", "不易变形", "机洗", "揉搓", "恢复",
+      "全棉", "认证", "央视", "检测", "礼物", "送礼",
+      "上班", "通勤", "下班", "停车场", "室内", "直播间", "上身", "近景", "远景"
+    ];
+
+    function reliableEvidenceText(text = "", status = "") {
+      const raw = String(text || "").trim();
+      if (!raw || raw.length < 8) return false;
+      const hits = EVIDENCE_WORDS_UTF8.filter(word => raw.includes(word)).length;
+      const latinNoise = (raw.match(/[A-Za-z]{3,}/g) || []).length;
+      const noiseWords = (raw.match(/torch|overse|Baby|hello|time/gi) || []).length;
+      if (String(status || "") === "needs_review" && hits < 2) return false;
+      if (hits === 0) return false;
+      if (latinNoise + noiseWords >= 2 && hits < 3) return false;
+      return true;
+    }
+
+    function hasCaptionOrVisualEvidence(item) {
+      const captionText = captionEvidenceText(item);
+      const storyboardText = (item.storyboards || [])
+        .map(row => `${row.node || ""} ${row.detail || ""} ${row.caption_text || ""} ${(row.shots || []).map(shot => `${shot.node || ""} ${shot.caption_text || ""}`).join(" ")}`)
+        .join(" ");
+      const frameNodeText = (item.frame_nodes || []).join(" ");
+      const cleaned = `${captionText} ${item.visual_evidence || ""} ${storyboardText} ${frameNodeText}`
+        .replaceAll("上身展示/效果承接", "")
+        .replaceAll("面料或款式细节", "")
+        .replaceAll("适合人群/购买理由", "")
+        .replaceAll("补充镜头", "")
+        .replaceAll("商品近景", "");
+      const hasKeywordEvidence = EVIDENCE_WORDS_UTF8.some(word => cleaned.includes(word));
+      const hasStoryboardEvidence = (item.storyboards || []).some(row => row.node && !titleLedText(item, row.node));
+      const hasFrameEvidence = (item.frames || []).length > 0 || Number(item.frame_count || 0) > 0;
+      return hasKeywordEvidence || hasStoryboardEvidence || hasFrameEvidence;
+    }
+
+    function hasLockedEvidenceAnalysis(item) {
+      return Boolean(
+        item &&
+        item.evidence_locked &&
+        (
+          (Array.isArray(item.core_analysis_cards) && item.core_analysis_cards.length) ||
+          (Array.isArray(item.storyboards) && item.storyboards.length) ||
+          item.visual_evidence ||
+          item.transcript_digest ||
+          item.transcript_text
+        )
+      );
+    }
+
+    function needsEvidenceReview(item) {
+      if (hasLockedEvidenceAnalysis(item)) return false;
+      if (item.script_status === "needs_transcript_or_visual_review" && !hasCaptionOrVisualEvidence(item)) return true;
+      if (titleLedCards(item, item.core_analysis_cards || [])) return true;
+      const text = `${item.script_interpretation || ""} ${item.script_formula || ""}`;
+      if (titleLedText(item, text)) return true;
+      return !usableTranscript(item) && !hasCaptionOrVisualEvidence(item);
+    }
+
+    function analysisEvidenceText(item, rows = storyboardRows(item)) {
+      const captionText = captionEvidenceText(item);
+      const rowText = rows.map(row => `${row.stage || ""} ${row.detail || ""} ${row.caption_text || ""}`).join(" ");
+      return `${item.transcript_text || ""} ${item.transcript_digest || ""} ${captionText} ${rowText}`;
+    }
+
+    function visualFallbackRows(item) {
+      const frames = item.frames || [];
+      if (!frames.length) return [];
+      const labels = [
+        ["0-3秒", "画面开头", "仅按首帧画面判断"],
+        ["3-6秒", "上身展示", "根据抽帧画面观察上身状态"],
+        ["6-10秒", "商品近景", "根据抽帧画面观察款式/面料细节"],
+        ["10秒后", "动作/结果", "根据抽帧画面观察动作或穿着结果"],
+      ];
+      return frames.slice(0, 4).map((_, index) => ({
+        time: labels[index]?.[0] || "补充镜头",
+        stage: labels[index]?.[1] || "画面补充",
+        detail: labels[index]?.[2] || "画面证据不足",
+        shots: [],
+      }));
+    }
+
+    function pendingEvidenceCards(item) {
+      if (hasCaptionOrVisualEvidence(item)) {
+        const rows = storyboardRows(item);
+        const sequence = rows.map(row => `${row.stage}${row.detail ? `：${row.detail}` : ""}`).filter(Boolean).join(" → ");
+        return [
+          {
+            title: "画面兜底拆解",
+            body: sequence || "已抽取关键帧，可按画面动作和字幕进行基础拆解。",
+            wide: true,
+          }
+        ];
+      }
+      return [
+        {
+          title: "证据不足：请先补充转写或关键帧",
+          body: "当前不生成标题式拆解。需要先重新转写，或根据关键帧画面补充人工确认后，再输出主钩子、脚本结构和复刻方向。",
+          wide: true,
+        }
+      ];
+    }
+
+    function storyboardRows(item) {
+      if (item.storyboards && item.storyboards.length) {
+        const rows = item.storyboards.filter(row => !titleLedText(item, row.node));
+        if (!rows.length && !usableTranscript(item)) return visualFallbackRows(item);
+        const sourceRows = rows.length ? rows : item.storyboards;
+        return sourceRows.map(row => {
+          const start = Number(row.start).toFixed(1).replace(".0", "");
+          const end = Number(row.end).toFixed(1).replace(".0", "");
+          const parsed = splitStage(row.node);
+          return {
+            time: `${start}-${end}秒`,
+            stage: parsed.stage,
+            detail: parsed.detail,
+            shots: row.shots || [],
+          };
+        });
+      }
+      return scriptFrameSteps(item).map(step => {
+        const parts = String(step).split("｜");
+        const time = parts.length > 1 ? parts[0] : "";
+        const parsed = splitStage(parts.length > 1 ? parts.slice(1).join("｜") : step);
+        return { time, stage: parsed.stage, detail: parsed.detail, shots: [] };
+      });
+    }
+
+    function scriptTimelineRows(item) {
+      return storyboardRows(item);
+    }
+
+    function findTimelineStage(item, names) {
+      const rows = storyboardRows(item);
+      return rows.find(row => names.some(name => row.stage.includes(name))) || null;
+    }
+
+    function scriptInterpretation(item) {
+      const rows = storyboardRows(item);
+      if (!rows.length) return item.script_interpretation || "当前未形成脚本理解；禁止标题兜底，需先重新转写，或根据关键帧字幕和画面动作复核。";
+      const meaningfulRows = rows.filter(row => !/补充分镜|商品近景/.test(row.stage));
+      const sequence = meaningfulRows.length ? meaningfulRows : rows;
+      const theme = inferVideoTheme(item, sequence);
+      const transitions = sequence.map((row, index) => {
+        const previous = sequence[index - 1];
+        return `${row.stage}：${row.detail || row.stage}${previous ? `（承接${previous.stage}）` : "（负责开场定题）"}`;
+      }).join(" → ");
+      const evidence = contentEvidenceSummary(item, sequence);
+      return `这条视频围绕「${theme}」展开，实际结构是：${transitions}。${evidence}`;
+    }
+
+    function cleanScriptText(text = "") {
+      return String(text || "").replace(/\s+/g, " ").trim();
+    }
+
+    function sourceEvidence(item, keywords = []) {
+      const transcript = String(item.transcript_text || item.transcript_digest || "");
+      const timeline = storyboardRows(item).map(row => `${row.stage}${row.detail}`).join(" ");
+      const captions = captionEvidenceText(item);
+      const sources = [];
+      if (keywords.some(word => transcript.includes(word))) sources.push("转写");
+      if (keywords.some(word => `${timeline} ${captions}`.includes(word))) sources.push("字幕/画面");
+      return sources.length ? sources.join("+") : "转写/字幕/画面";
+    }
+
+    function captionEvidenceText(item) {
+      const fromList = (item.captions || []).map(caption => {
+        if (Array.isArray(caption.keywords) && caption.keywords.length) return caption.keywords.join(" ");
+        return `${caption.cleaned || ""} ${caption.text || ""}`;
+      }).join(" ");
+      return `${item.caption_text || ""} ${fromList}`;
+    }
+
+    function inferVideoTheme(item, rows) {
+      const text = `${item.transcript_text || ""} ${captionEvidenceText(item)} ${rows.map(row => `${row.stage}${row.detail}${row.caption_text || ""}`).join(" ")}`;
+      if (/怕热|凉感|凉快|夏天|速干|透气/.test(text)) return "夏天穿针织怕热、怕闷";
+      if (/显瘦|显背|显白|遮肉|小个子/.test(text)) return "想要显瘦显白、修饰身材";
+      if (/通勤|上班|得体|高级/.test(text)) return "通勤场景里既要舒服又要得体";
+      if (/弹力|拉扯|不易变形|不塌/.test(text)) return "担心轻薄面料变形、没质感";
+      return rows[0]?.detail || rows[0]?.stage || "用户是否适合这件单品";
+    }
+
+    function contentEvidenceSummary(item, rows) {
+      const text = analysisEvidenceText(item, rows);
+      const evidence = [];
+      if (/怕热|凉感|凉快|夏天|曲珠|冰麻|冰丝/.test(text)) evidence.push("先把用户痛点放在夏天体感上");
+      if (/速干|透气|网眼|进风/.test(text)) evidence.push("再用字幕和近景把凉感解释成速干、透气这类功能");
+      if (/不透色|薄而不透|手掌|肉色|不透/.test(text)) evidence.push("同时处理轻薄面料容易透的顾虑");
+      if (/拉扯|弹力|不易变形|不塌/.test(text)) evidence.push("用动作证明面料不是软塌或易变形");
+      if (/上身|显瘦|显白|通勤|小个子/.test(text)) evidence.push("最后回到上身效果和适合人群");
+      return evidence.length ? `${evidence.join("，")}。` : "主要通过口播、字幕和上身画面共同完成种草。";
+    }
+
+    function videoContentJudgement(item) {
+      if (needsEvidenceReview(item)) return "当前没有可靠转写、OCR字幕或可识别画面卖点，已阻止按标题或模板生成拆解。";
+      const rows = storyboardRows(item).filter(row => !/补充分镜|商品近景/.test(row.stage));
+      const targets = rows.length ? rows : storyboardRows(item);
+      const theme = inferVideoTheme(item, targets);
+      const persuasion = persuasionCombination(targets);
+      const opening = targets[0];
+      const result = targets.find(row => /结果|上身|显瘦|显白|通勤|舒服/.test(`${row.stage}${row.detail}`));
+      const weakPoint = targets.some(row => /补充|商品近景/.test(row.stage))
+        ? "后段有补充镜头，复刻时可以换成更明确的成交或人群收口"
+        : (targets.length <= 3 ? "结构较短，复刻时要保证每个镜头都承担明确功能" : "分镜信息较完整，复刻重点是保持转折顺序");
+      const relation = contentRelationSummary(targets);
+      const resultText = result ? `最后用「${result.stage}：${result.detail || result.stage}」回到穿着结果。` : "";
+      return `围绕「${theme}」，开头用「${opening?.detail || opening?.stage || scriptOpening(item)}」定题；${relation}说服由${persuasion.label}共同完成。${resultText}${weakPoint}。`;
+    }
+
+    function contentRelationSummary(rows) {
+      const roles = rows.map(row => row.stage);
+      if (roles.length <= 1) return "内容链路很短，主要靠单一画面完成表达；";
+      if (roles.some(stage => /介绍面料|介绍款式|款式|面料|版型/.test(stage)) && roles.some(stage => /证明|功能|透气|不透色|工艺|拉扯/.test(stage))) {
+        return "内容先建立单品/面料认知，再接证明或功能画面；";
+      }
+      if (roles.some(stage => /证明|功能|透气|不透色|工艺|拉扯/.test(stage)) && roles.some(stage => /结果|上身/.test(stage))) {
+        return "内容从证明动作推进到上身结果；";
+      }
+      if (roles.some(stage => /结果|上身/.test(stage))) {
+        return "内容更依赖上身结果和穿着氛围完成说服；";
+      }
+      return `内容按「${roles.join(" → ")}」推进；`;
+    }
+
+    function persuasionCombination(rows) {
+      const selected = rows.filter(row => /介绍面料|面料|介绍款式|款式|介绍版型|版型|证明|透气|不透色|拉扯|工艺|功能|结果|上身|显瘦|显白|通勤|舒服/.test(`${row.stage}${row.detail}`));
+      const parts = selected.length ? selected : rows.slice(0, 3);
+      const label = parts
+        .map(row => `「${row.stage}：${row.detail || row.stage}」`)
+        .join("、");
+      return {
+        stage: parts.map(row => row.stage).join(" + ") || "内容链路",
+        label: label || "当前分镜链路",
+        body: `这条视频不是靠单一分镜完成说服，而是由${label || "当前分镜链路"}一起完成判断：前面建立理解，中间补充理由，后面回到穿着结果或适合人群。`,
+      };
+    }
+
+    function contentSellingPoints(item) {
+      if (needsEvidenceReview(item)) return "缺少可靠转写/字幕/画面卖点";
+      const text = analysisEvidenceText(item);
+      const candidates = [
+        "怕热", "凉感", "凉快", "曲珠冰麻纱", "冰麻纱", "不是冰丝", "速干", "透气", "网眼",
+        "薄而不透", "不透色", "手掌肉色证明", "拉扯", "弹力", "不易变形", "不塌",
+        "显瘦", "显背薄", "显白", "遮肉", "小个子友好", "通勤", "高级感", "舒服", "软糯"
+      ];
+      const aliases = {
+        "曲珠冰麻纱": ["曲珠冰麻纱", "曲珠冰麻", "冰麻纱", "冰麻"],
+        "冰麻纱": ["冰麻纱", "冰麻"],
+        "不是冰丝": ["不是冰丝", "不冰丝"],
+        "不透色": ["不透色", "不透", "薄而不透"],
+        "手掌肉色证明": ["手掌", "肉色"],
+        "显背薄": ["显背薄", "显背 薄"],
+        "小个子友好": ["小个子"],
+        "高级感": ["高级感", "高级"],
+        "软糯": ["软糯", "软", "软舒服"]
+      };
+      const points = [];
+      for (const point of candidates) {
+        const words = aliases[point] || [point];
+        if (words.some(word => text.includes(word)) && !points.includes(point)) points.push(point);
+      }
+      return points.length ? points.slice(0, 12).join("、") : "-";
+    }
+
+    function scriptFormula(item) {
+      const rows = storyboardRows(item);
+      if (!rows.length) return item.script_formula || item.content_formula || "";
+      return rows.map(row => row.stage).join(" → ");
+    }
+
+    function scriptReplicateAdvice(item) {
+      const rows = storyboardRows(item);
+      if (!rows.length) return item.replicate_advice || "";
+      const hook = findTimelineStage(item, ["开头", "钩子"]);
+      const proofRows = rows.filter(row => /证明|工艺|透气|不透色|功能|结果/.test(row.stage));
+      const proofText = proofRows.map(row => row.detail || row.stage).filter(Boolean).slice(0, 3).join("、");
+      if (proofText) return `复刻时保留「${hook?.detail || scriptOpening(item)}」这个钩子，把「${proofText}」拍成可见画面；场景、模特和款式可以换。`;
+      return `复刻时先保留「${hook?.detail || scriptOpening(item)}」这个切入点，再围绕当前视频真实出现的分镜补画面证据。`;
+    }
+
+    function scriptDeepCards(item) {
+      if (needsEvidenceReview(item)) {
+        return pendingEvidenceCards(item);
+      }
+      if (item.core_analysis_cards && item.core_analysis_cards.length) {
+        if (hasLockedEvidenceAnalysis(item) || !titleLedCards(item, item.core_analysis_cards)) {
+          return item.core_analysis_cards.map((card, index) => ({
+            title: card.title || `核心模块${index + 1}`,
+            body: card.body || "",
+            wide: index === 1 || index === 2 || /新脚本方向/.test(card.title || ""),
+          }));
+        }
+      }
+      if (item.storyboards && item.storyboards.length) {
+        return coreAnalysisCards(item);
+      }
+      if (!usableTranscript(item)) return (item.frames && item.frames.length) ? coreAnalysisCards(item) : pendingEvidenceCards(item);
+      const points = asList(item.reliable_points).length ? asList(item.reliable_points) : asList(item.selling_points);
+      const mainPoint = points[0] || "核心卖点";
+      const secondPoint = points[1] || item.product_focus || "款式展示";
+      const proofPoint = points.find(point => /拉扯|不易变形|不透|透气|面料|工艺|坑条|网眼/.test(point)) || "上身/近景证明";
+      const proofText = points.filter(point => /显瘦|显背|显白|不易变形|不透|拉扯|透气|面料|坑条|网眼/.test(point)).slice(0, 4).join("、") || proofPoint;
+      const formulaParts = String(item.script_formula || "").split("→").map(part => part.trim()).filter(Boolean);
+      return [
+        {
+          title: "开头钩子",
+          body: `用「${scriptOpening(item)}」切入，优先承接转写/字幕里的强需求，而不是只看标题。`
+        },
+        {
+          title: "核心卖点",
+          body: `主讲「${[mainPoint, secondPoint].filter(Boolean).join("、")}」，可信卖点为：${points.slice(0, 5).join("、") || "-" }。`
+        },
+        {
+          title: "口播理解",
+          body: item.script_interpretation
+            ? item.script_interpretation.split("\n").slice(0, 2).join(" ")
+            : "暂无完整转写；禁止按标题拆解，仅按关键帧字幕和画面动作临时判断。"
+        },
+        {
+          title: "产品证明",
+          body: `证明重点是「${proofText}」，需要用上身、手持、近景或拉扯动作支撑。`
+        },
+        {
+          title: "成交价值",
+          body: `适合打${formulaParts[1] || mainPoint}人群，若要成交更稳，要把证明镜头前置并讲清适合谁。`
+        },
+        {
+          title: "下一步动作",
+          body: `复刻时保留「${scriptOpening(item)}」，围绕${points.slice(0, 3).join("、") || "核心卖点"}再拍不同场景版本。`
+        }
+      ];
+    }
+
+    function coreAnalysisCards(item) {
+      const rows = storyboardRows(item).filter(row => !/补充分镜/.test(row.stage));
+      const effectiveRows = rows.length ? rows : storyboardRows(item);
+      const opening = effectiveRows[0] || {};
+      const mainHook = primaryHook(item, effectiveRows);
+      const keyShots = coreShotRows(effectiveRows);
+      const points = primarySellingPoints(item, effectiveRows);
+      const proofRows = effectiveRows.filter(row => /证明|透气|不透色|速干|拉扯|工艺|功能|上身|结果|近景|细节/.test(`${row.stage}${row.detail}`));
+      const formula = `${mainHook} + ${inferScene(item)} + ${points.slice(0, 3).join(" + ") || "核心卖点"} + ${proofRows.map(row => row.stage).slice(0, 2).join(" + ") || "画面证明"} + ${conversionAction(item)}`;
+      return [
+        {
+          title: "1. 主钩子（0-3秒）",
+          body: `主钩子：${mainHook}。\n停留原因：${hookStopReason(mainHook, opening)}\n贡献判断：文案/字幕45%｜画面30%｜情绪25%。`
+        },
+        {
+          title: "2. 关键脚本结构",
+          body: `${effectiveRows.map(row => row.stage).join(" → ")}。\n核心判断：${videoContentJudgement(item)}`,
+          wide: true
+        },
+        {
+          title: "3. 核心镜头",
+          body: keyShots.map(row => `${row.time || "约"}：${row.stage}｜${row.detail || row.stage}｜${stagePurpose(row)}`).join("\n"),
+          wide: true
+        },
+        {
+          title: "4. 核心卖点",
+          body: points.slice(0, 3).map((point, index) => `卖点${index + 1}：${point}｜${conversionForPoint(point)}｜贡献约${[35, 30, 25][index] || 10}%`).join("\n") || "未识别到强卖点，需补充字幕/转写。"
+        },
+        {
+          title: "5. 跑量 / 引流 / 成交原因",
+          body: `跑量：${trafficReason(item, mainHook)}\n引流：${leadReason(item, points)}\n成交：${salesReason(item, points, proofRows)}`
+        },
+        {
+          title: "6. 复刻公式",
+          body: `${formula} = 可复用公式。\n复刻重点：保留主钩子、核心证明镜头和上身结果；场景、模特、颜色可以替换。`
+        },
+        {
+          title: "7. 爆款因子评分",
+          body: coreScoreSummary(item, effectiveRows, points)
+        },
+        {
+          title: "8. 新脚本方向",
+          body: coreScriptDirections(item, mainHook, points)
+        }
+      ];
+    }
+
+    function primaryHook(item, rows = storyboardRows(item)) {
+      const evidence = analysisEvidenceText(item, rows);
+      if (/全棉幺幺三|认证|央视|机构认证/.test(evidence)) return "全棉材质/认证背书";
+      if (/速干|透气|凉感|怕热|夏天/.test(evidence)) return "凉感透气/夏季体感";
+      if (/显瘦|显背|显白|遮肉|小个子/.test(evidence)) return "显瘦显白/修饰身材";
+      if (/弹力|拉扯|不变形|机洗|揉搓|恢复/.test(evidence)) return "弹力抗变形/易恢复";
+      const opening = rows[0] || {};
+      const visualHook = cleanHookCandidate([opening.stage, opening.detail].filter(Boolean).join("："));
+      if (visualHook) return visualHook;
+      const formulaHook = cleanHookCandidate(scriptOpening(item));
+      if (formulaHook) return formulaHook;
+      return usableTranscript(item) ? "转写需结构化" : "画面开头/字幕信息不足";
+    }
+
+    function cleanHookCandidate(text = "") {
+      const value = String(text || "")
+        .replace(/^(开头钩子|主钩子|开头|钩子|画面钩子)[：:|｜\s]*/g, "")
+        .replace(/^(穿搭结果开头|展示开头|痛点开头)[：:|｜\s]*/g, "")
+        .trim();
+      if (!value || value === "-" || value.length < 2) return "";
+      if (/^(开头|钩子|主钩子|分镜|阶段|卖点)$/.test(value)) return "";
+      return value;
+    }
+
+    function hookStopReason(hook, opening) {
+      if (/怕热|凉感|凉快|透气|速干/.test(hook)) return "直接命中夏天怕热、怕闷的人群，用户会先确认这件衣服是不是真的凉快。";
+      if (/显瘦|显白|遮肉|小个子|体态/.test(hook)) return "先抛出上身结果，让用户判断自己是否也需要这个修饰效果。";
+      if (/通勤|上班|得体|高级/.test(hook)) return "先抛出使用场景，让用户快速判断这件衣服能不能解决日常穿搭。";
+      return `开头用「${opening.detail || opening.stage || hook}」先定题，让用户知道这条视频要解决什么问题。`;
+    }
+
+    function coreShotRows(rows) {
+      const selected = [];
+      const push = row => {
+        if (row && !selected.includes(row)) selected.push(row);
+      };
+      push(rows[0]);
+      push(rows.find(row => /介绍|面料|款式|版型/.test(row.stage)));
+      push(rows.find(row => /证明|透气|不透色|速干|拉扯|工艺|功能/.test(`${row.stage}${row.detail}`)));
+      push(rows.find(row => /上身|结果|显瘦|显白|舒服|体态/.test(`${row.stage}${row.detail}`)));
+      return selected.filter(Boolean).slice(0, 4);
+    }
+
+    function primarySellingPoints(item, rows = storyboardRows(item)) {
+      const points = contentSellingPoints(item);
+      const list = points === "-" ? [] : points.split("、");
+      const groups = [
+        { label: "凉感面料", words: /凉感|凉快|冰麻|竹木|冰丝/ },
+        { label: "透气速干", words: /透气|速干|网眼|进风/ },
+        { label: "不透色/安心穿", words: /不透色|薄而不透|手掌|肉色|不透/ },
+        { label: "上身有型/显体态", words: /上身|显瘦|显白|显背|体态|不塌|高级/ },
+        { label: "弹力不变形", words: /弹力|拉扯|不易变形/ },
+        { label: "通勤百搭", words: /通勤|上班|得体|百搭/ },
+      ];
+      const text = `${item.transcript_text || ""} ${rows.map(row => `${row.stage}${row.detail}`).join(" ")} ${list.join(" ")}`;
+      const selected = groups.filter(group => group.words.test(text)).map(group => group.label);
+      const fallback = list.filter(point => !selected.some(item => item.includes(point) || point.includes(item))).slice(0, 3);
+      return [...selected, ...fallback].slice(0, 3);
+    }
+
+    function trafficReason(item, hook) {
+      if (/怕热|凉感|凉快/.test(hook)) return "夏季怕热是大人群痛点，开头门槛低，容易获得停留和推荐测试。";
+      if (/显瘦|显白|小个子|体态/.test(hook)) return "上身结果型钩子容易让用户代入自己，停留率更稳。";
+      if (/通勤|上班|高级/.test(hook)) return "明确场景提高目标人群识别速度，适合投放承接。";
+      return "钩子明确，能让用户快速判断是否与自己有关。";
+    }
+
+    function leadReason(item, points) {
+      if (Number(item.enter_room || 0) > 0) return `这条已有进房 ${intNum(item.enter_room)}，用户会进直播间确认尺码、颜色、价格和真实上身。`;
+      return `用户需要进一步确认${points.slice(0, 2).join("、") || "面料和上身效果"}，适合引导进直播间。`;
+    }
+
+    function salesReason(item, points, proofRows) {
+      const proof = proofRows.map(row => row.stage).slice(0, 2).join("、") || "画面证明";
+      if (Number(item.roi || 0) >= 12) return `ROI ${roi(item.roi)} 高于保本ROI 12，说明「${points.slice(0, 3).join("、") || "核心卖点"}」加上${proof}已经能形成购买理由。`;
+      return `成交需要继续强化${proof}，把「${points.slice(0, 2).join("、") || "核心卖点"}」讲得更可见。`;
+    }
+
+    function coreScoreSummary(item, rows, points) {
+      const hook = primaryHook(item, rows);
+      const hasProof = rows.some(row => /证明|透气|不透色|速干|拉扯|工艺|功能|近景/.test(`${row.stage}${row.detail}`));
+      const hasResult = rows.some(row => /上身|结果|显瘦|显白|舒服|体态|通勤/.test(`${row.stage}${row.detail}`));
+      const hookScore = /怕热|显瘦|显白|小个子|通勤|高级|不缺衣服|焦虑|好心情/.test(hook) ? 8.5 : 7.5;
+      const visualScore = (item.frames || []).length >= 5 ? 8 : 7;
+      const structureScore = rows.length >= 4 ? 8 : 7;
+      const sellingScore = points.length >= 3 ? 8.5 : (points.length >= 2 ? 8 : 7);
+      const trustScore = hasProof ? 8 : 7;
+      const conversionScore = Number(item.roi || 0) >= 30 ? 8.5 : (Number(item.roi || 0) >= 12 ? 8 : 6.5);
+      const copyScore = rows.length >= 3 && hook ? 8.5 : 7;
+      const total = Math.round((hookScore + visualScore + structureScore + sellingScore + trustScore + conversionScore + copyScore) / 70 * 100);
+      return [
+        `开头钩子：${hookScore}/10｜主钩子是「${hook}」。`,
+        `画面表现：${visualScore}/10｜${(item.frames || []).length ? "有关键抽帧支撑" : "画面素材不足"}。`,
+        `脚本结构：${structureScore}/10｜${rows.map(row => row.stage).join("→") || "结构待补" }。`,
+        `核心卖点表达：${sellingScore}/10｜${points.slice(0, 3).join("、") || "卖点待补"}。`,
+        `信任建立：${trustScore}/10｜${hasProof ? "有证明/近景镜头" : "证明镜头偏弱"}。`,
+        `转化能力：${conversionScore}/10｜ROI ${roi(item.roi)}，${Number(item.roi || 0) >= 12 ? "高于" : "低于"}保本ROI 12。`,
+        `可复制性：${copyScore}/10｜${hasResult ? "有上身结果可复拍" : "需要补清楚结果镜头"}。`,
+        `综合评分：${total}/100。`
+      ].join("\n");
+    }
+
+    function coreScriptDirections(item, hook, points) {
+      const scene = inferScene(item);
+      const point1 = points[0] || "核心卖点";
+      const point2 = points[1] || point1;
+      const point3 = points[2] || point1;
+      const crowd = /怕热|凉感|透气|速干/.test(`${hook}${points.join(" ")}`) ? "怕热又想穿得舒服的人群"
+        : (/显瘦|显白|小个子|体态/.test(`${hook}${points.join(" ")}`) ? "想要修饰身材的人群" : "有同类穿搭需求的人群");
+      return [
+        `方向1｜人群痛点版：开头用「${hook}」，场景放在${scene}，核心讲${point1}，结尾引导进直播间看上身/尺码。`,
+        `方向2｜证明强化版：开头先抛「别只看款式，要看它怎么解决问题」，重点拍${point2}的近景或动作证明，强化可信度。`,
+        `方向3｜上身结果版：开头用「${crowd}看这件」，中段展示正面/侧面/细节，结尾落到${point3}和适合人群。`
+      ].join("\n");
+    }
+
+    function completeAnalysisCards(item) {
+      const rows = storyboardRows(item).filter(row => !/补充分镜/.test(row.stage));
+      const effectiveRows = rows.length ? rows : storyboardRows(item);
+      const theme = inferVideoTheme(item, effectiveRows);
+      const opening = effectiveRows[0] || {};
+      const ending = effectiveRows.length > 1 ? effectiveRows[effectiveRows.length - 1] : null;
+      const points = contentSellingPoints(item);
+      const pointList = points === "-" ? [] : points.split("、");
+      const productName = item.style_name || item.product_focus || item.product_name || item.product || "-";
+      const duration = item.duration || item.video_duration || item.duration_seconds || item.videoDuration || "-";
+      const contentType = inferContentType(item, effectiveRows);
+      const hookText = opening.detail || opening.stage || scriptOpening(item);
+      const proofRows = effectiveRows.filter(row => /证明|透气|不透色|拉扯|工艺|功能|上身|结果|近景|细节/.test(`${row.stage}${row.detail}`));
+      const emotionValues = inferEmotionValues(item, effectiveRows);
+      const formula = [
+        hookText,
+        inferScene(item),
+        theme,
+        pointList.slice(0, 3).join("+") || "核心卖点",
+        proofRows.map(row => row.stage).slice(0, 2).join("+") || "画面证明",
+        conversionAction(item),
+      ].join(" + ");
+      return [
+        {
+          title: "1. 视频基础信息",
+          body: `主题：${theme}；产品：${productName}；时长：${duration}秒；账号类型：${accountType(item)}；内容类型：${contentType}。`,
+        },
+        {
+          title: "2. 开头钩子拆解",
+          body: `画面钩子：${opening.stage || "开头画面"}，第一眼让用户看到${opening.detail || hookText}。文案钩子：${hookText}。情绪钩子：${hookEmotion(hookText)}。停留逻辑：用户会停留，是因为开头把人群/问题先抛出来。`,
+        },
+        {
+          title: "3. 脚本结构拆解",
+          body: effectiveRows.map(row => `${row.stage}讲「${row.detail || row.stage}」，作用是${stagePurpose(row)}。`).join(" "),
+        },
+        {
+          title: "4. 逐镜头拆解",
+          body: effectiveRows.map(row => `${row.time}：${row.stage}｜${row.detail || "-"}｜作用：${stagePurpose(row)}｜心理：${stagePsychology(row)}`).join("；"),
+        },
+        {
+          title: "5. 卖点拆解",
+          body: sellingPointBreakdown(pointList, effectiveRows),
+        },
+        {
+          title: "6. 用户需求拆解",
+          body: `目标人群：${targetAudience(theme, item)}；痛点：${theme}；需求：${needFromTheme(theme)}；顾虑：${concernFromRows(effectiveRows)}；解决方式：${contentEvidenceSummary(item, effectiveRows)}购买理由：${buyReason(pointList, effectiveRows)}。`,
+        },
+        {
+          title: "7. 情绪价值拆解",
+          body: emotionValues.map(value => `${value}：通过${emotionTrigger(value, effectiveRows)}触发，让用户产生${emotionImpact(value)}，用于提升停留和购买信心。`).join(" "),
+        },
+        {
+          title: "8. 转化设计拆解",
+          body: `信任建立：${trustBuilder(effectiveRows)}；购买刺激：${purchaseStimulus(item, pointList)}；转化动作：${conversionAction(item)}。`,
+        },
+        {
+          title: "9. 流量逻辑分析",
+          body: `停留：${hookText}抓人；看完：${effectiveRows.map(row => row.stage).join("→")}有连续推进；点赞：认同${theme}；评论：容易围绕尺码/面料/适合人群提问；收藏：可作为穿搭或选款参考；分享：适合转给同类需求人群；进直播间/购买：靠${pointList.slice(0, 3).join("、") || "核心卖点"}推动。`,
+        },
+        {
+          title: "10. 爆款因子评分",
+          body: scoreSummary(item, effectiveRows, pointList),
+        },
+        {
+          title: "11. 可复用公式提炼",
+          body: `${formula} = 可复用内容公式。`,
+        },
+        {
+          title: "12. 仿拍建议",
+          body: `必须保留：${hookText}和${proofRows.map(row => row.stage).join("、") || "核心展示"}；可以优化：补强结尾转化；可以替换：场景、模特、颜色；适合产品：${productName}同类；适合达人：通勤/穿搭/面料讲解型；适合场景：${inferScene(item)}。`,
+        },
+        {
+          title: "13. 新脚本方向",
+          body: newScriptDirections(item, theme, pointList),
+        },
+      ];
+    }
+
+    function inferContentType(item, rows) {
+      const text = rows.map(row => `${row.stage}${row.detail}`).join(" ");
+      if (/测评|亲测|对比/.test(text)) return "达人测评";
+      if (/教程|技巧|怎么/.test(text)) return "干货教程";
+      if (/直播|进房|直播间/.test(text)) return "引流";
+      if (/上身|穿搭|通勤|搭配/.test(text)) return "穿搭展示";
+      if (Number(item.roi) >= 30 || Number(item.gmv) > 0) return "成交";
+      return "种草";
+    }
+
+    function accountType(item) {
+      if (/达人|KOC|KOL/i.test(String(item.account_type || item.source || ""))) return item.account_type || item.source;
+      return item.author || item.account_name || "官方/投放素材";
+    }
+
+    function inferScene(item) {
+      const rows = storyboardRows(item);
+      const text = `${item.scene || ""} ${rows.map(row => `${row.stage}${row.detail}`).join(" ")}`;
+      if (/通勤|上班|职场/.test(text)) return "通勤/上班场景";
+      if (/夏天|夏季|日常/.test(text)) return "夏季日常";
+      if (/旅行|户外|出去/.test(text)) return "外出场景";
+      return item.scene || "室内讲解/上身展示";
+    }
+
+    function hookEmotion(text) {
+      if (/怕|热|闷|焦虑|不想/.test(text)) return "共鸣、焦虑、被理解感";
+      if (/显瘦|显白|高级|好看/.test(text)) return "欲望、期待、自信感";
+      if (/弹力|舒服|不紧绷/.test(text)) return "安全感、舒适感";
+      return "好奇、期待";
+    }
+
+    function stagePurpose(row) {
+      const text = `${row.stage}${row.detail}`;
+      if (/开头|钩子/.test(text)) return "抓人群并建立观看理由";
+      if (/介绍|款式|面料|版型/.test(text)) return "建立商品认知";
+      if (/证明|拉扯|透气|不透色|工艺|功能/.test(text)) return "降低顾虑并增强可信度";
+      if (/结果|上身|效果/.test(text)) return "把卖点转成用户可感知结果";
+      return "补充信息并维持节奏";
+    }
+
+    function stagePsychology(row) {
+      const text = `${row.stage}${row.detail}`;
+      if (/开头|怕|显瘦|高级/.test(text)) return "这是不是我的问题";
+      if (/介绍|面料|款式/.test(text)) return "这件衣服到底是什么";
+      if (/证明|透气|不透|拉扯|工艺/.test(text)) return "它说的是否可信";
+      if (/上身|结果|效果/.test(text)) return "穿上会不会也适合我";
+      return "继续确认细节";
+    }
+
+    function sellingPointBreakdown(points, rows) {
+      const selected = points.slice(0, 3);
+      if (!selected.length) return "未识别到明确卖点，建议补充字幕或口播关键词。";
+      return selected.map((point, index) => {
+        const row = rows.find(item => `${item.stage}${item.detail}`.includes(point.slice(0, 2))) || rows[index] || rows[0];
+        return `卖点${index + 1}：${point}；展示方式：${row?.stage || "画面展示"}；对应痛点：${painForPoint(point)}；获得感：${gainForPoint(point)}；情绪价值：${emotionForPoint(point)}；转化作用：${conversionForPoint(point)}。`;
+      }).join(" ");
+    }
+
+    function painForPoint(point) {
+      if (/凉|透气|速干|冰/.test(point)) return "夏天怕热怕闷";
+      if (/不透|手掌|肉色/.test(point)) return "轻薄面料怕透";
+      if (/显瘦|遮肉|显背|小个子/.test(point)) return "身材修饰需求";
+      if (/弹力|不易变形|不塌/.test(point)) return "担心变形和束缚";
+      return "不知道是否适合自己";
+    }
+
+    function gainForPoint(point) {
+      if (/凉|透气|速干/.test(point)) return "穿着更凉快舒服";
+      if (/不透/.test(point)) return "轻薄但安心";
+      if (/显瘦|显白|高级/.test(point)) return "上身更好看";
+      return "降低试错成本";
+    }
+
+    function emotionForPoint(point) {
+      if (/显瘦|显白|高级/.test(point)) return "自信感/精致感";
+      if (/凉|舒服|软/.test(point)) return "舒适感/被理解感";
+      if (/不透|不易变形/.test(point)) return "安全感/品质感";
+      return "期待感";
+    }
+
+    function conversionForPoint(point) {
+      if (/不透|不易变形|证明|弹力/.test(point)) return "降低购买顾虑";
+      if (/凉|透气|速干|显瘦|显白/.test(point)) return "放大购买理由";
+      return "帮助用户记住产品";
+    }
+
+    function targetAudience(theme, item) {
+      if (/怕热|怕闷/.test(theme)) return "夏天怕热、想穿针织但担心闷的人";
+      if (/显瘦|修饰/.test(theme)) return "关注显瘦、显白、遮肉的穿搭人群";
+      if (/通勤/.test(theme)) return "上班通勤、追求得体舒适的人";
+      return item.model_type || "有同类穿搭需求的人群";
+    }
+
+    function needFromTheme(theme) {
+      if (/怕热|怕闷/.test(theme)) return "凉快、透气、轻薄但不尴尬";
+      if (/显瘦|修饰/.test(theme)) return "修饰身材并提升上身效果";
+      if (/通勤/.test(theme)) return "舒适、得体、可日常重复穿";
+      return "快速判断单品是否适合自己";
+    }
+
+    function concernFromRows(rows) {
+      const text = rows.map(row => `${row.stage}${row.detail}`).join(" ");
+      const concerns = [];
+      if (/不透|薄/.test(text)) concerns.push("怕透");
+      if (/变形|拉扯|弹力/.test(text)) concerns.push("怕变形");
+      if (/透气|凉/.test(text)) concerns.push("怕闷热");
+      if (/显瘦|上身/.test(text)) concerns.push("怕上身不好看");
+      return concerns.join("、") || "怕不适合自己";
+    }
+
+    function buyReason(points, rows) {
+      return points.slice(0, 3).join("、") || rows.map(row => row.stage).slice(0, 3).join("、") || "上身效果明确";
+    }
+
+    function inferEmotionValues(item, rows) {
+      const text = `${contentSellingPoints(item)} ${rows.map(row => `${row.stage}${row.detail}`).join(" ")}`;
+      const values = [];
+      if (/显瘦|显白|高级/.test(text)) values.push("自信感");
+      if (/舒服|凉|透气|软/.test(text)) values.push("舒适感");
+      if (/不透|不易变形|品质|工艺/.test(text)) values.push("安全感");
+      if (/通勤|得体|高级/.test(text)) values.push("品质感");
+      return values.length ? values.slice(0, 4) : ["期待感"];
+    }
+
+    function emotionTrigger(value, rows) {
+      if (value === "舒适感") return "凉感、透气、软糯等体感描述";
+      if (value === "安全感") return "不透色、拉扯、不易变形等证明镜头";
+      if (value === "自信感") return "显瘦显白和上身结果";
+      if (value === "品质感") return "工艺、面料和通勤场景";
+      return rows.map(row => row.stage).slice(0, 2).join("、");
+    }
+
+    function emotionImpact(value) {
+      if (value === "舒适感") return "觉得这件衣服能解决夏天穿着不舒服";
+      if (value === "安全感") return "降低怕透、怕变形、怕踩雷的顾虑";
+      if (value === "自信感") return "期待自己穿上也好看";
+      if (value === "品质感") return "觉得价格和购买更合理";
+      return "愿意继续看";
+    }
+
+    function trustBuilder(rows) {
+      const text = rows.map(row => `${row.stage}${row.detail}`).join(" ");
+      const builders = [];
+      if (/上身/.test(text)) builders.push("真实上身");
+      if (/近景|细节|面料/.test(text)) builders.push("面料特写");
+      if (/拉扯|不透|透气|工艺/.test(text)) builders.push("动作/功能证明");
+      return builders.join("、") || "口播讲解 + 画面展示";
+    }
+
+    function purchaseStimulus(item, points) {
+      if (/直播|进房/.test(`${points.join(" ")} ${conversionAction(item)}`)) return "直播间引导";
+      return points.slice(0, 3).join("、") || "明确利益点";
+    }
+
+    function conversionAction(item) {
+      if (Number(item.enter_room) > 0) return "进入直播间";
+      if (Number(item.gmv) > 0 || Number(item.orders) > 0) return "点击商品/购买";
+      return "点赞、收藏、点击商品";
+    }
+
+    function scoreSummary(item, rows, points) {
+      const hook = rows[0]?.detail ? 8 : 6;
+      const visual = (item.frames || []).length >= 5 ? 8 : 6;
+      const structure = rows.length >= 4 ? 8 : 6;
+      const selling = points.length >= 3 ? 8 : 6;
+      const trust = rows.some(row => /证明|不透|拉扯|工艺|近景/.test(`${row.stage}${row.detail}`)) ? 8 : 6;
+      const conversion = Number(item.roi) >= 20 ? 8 : 6;
+      const copy = rows.length >= 4 ? 8 : 7;
+      const emotion = inferEmotionValues(item, rows).length >= 2 ? 8 : 6;
+      const total = hook + visual + structure + selling + emotion + trust + conversion + copy;
+      const total100 = Math.round(total / 80 * 100);
+      return `开头钩子${hook}/10，画面表现${visual}/10，脚本结构${structure}/10，卖点表达${selling}/10，情绪价值${emotion}/10，信任建立${trust}/10，转化能力${conversion}/10，可复制性${copy}/10。综合评分：${total100}/100。`;
+    }
+
+    function newScriptDirections(item, theme, points) {
+      const point = points[0] || "核心卖点";
+      const scene = inferScene(item);
+      return [
+        `方向1：${theme}强化版；开头「夏天穿这件为什么不闷」；场景${scene}；核心卖点${point}；情绪价值舒适感；引导进直播间看上身。`,
+        `方向2：同款细节证明版；开头「别只看薄，要看它怎么做到不尴尬」；场景面料近景；核心卖点${points[1] || point}；情绪价值安全感；引导点击商品。`,
+        `方向3：通勤上身版；开头「上班想舒服又得体可以看这件」；场景上班通勤；核心卖点${points[2] || point}；情绪价值品质感；引导收藏/进直播间。`,
+      ].join(" ");
+    }
+
+    function openingCardBody(opening, item) {
+      const text = opening?.detail || opening?.stage || scriptOpening(item);
+      if (/怕热|凉感|凉快|闷/.test(text)) return `开头直接抛「${text}」，先抓夏天怕热、怕闷的人群。`;
+      if (/显瘦|显白|显背|遮肉|高级|通勤/.test(text)) return `开头用「${text}」先抓穿着结果或场景人群，让用户判断自己是否需要。`;
+      if (/弹力|不紧绷|活动/.test(text)) return `开头先抛「${text}」，用穿着限制/舒适度问题抓人。`;
+      return `开头用「${text}」定题，先把这条视频要解决的穿搭问题抛出来。`;
+    }
+
+    function middleCardBody(rows, opening, ending) {
+      const text = rows.map(row => `${row.stage}：${row.detail || row.stage}`).join("、");
+      const relation = ending ? `，并为结尾的「${ending.stage}」做铺垫` : "";
+      if (!rows.length) return "中间展示较短，主要靠开头和结尾完成信息传递。";
+      return `中间按当前分镜展示「${text}」，不是复述开头，而是把开头的「${opening?.stage || "卖点"}」落到具体面料、款式、动作或细节画面${relation}。`;
+    }
+
+    function endingCardBody(ending, middleRows) {
+      if (!ending) return "结尾较短，主要靠前面的展示完成证明；复刻时可以补一个更明确的效果镜头。";
+      const detail = ending.detail || ending.stage;
+      if (/商品近景|近景|细节/.test(ending.stage)) {
+        return `结尾落在「${ending.stage}：${detail}」，不是上身效果收口，而是用近景把前面讲过的面料、款式或工艺细节再确认一次。`;
+      }
+      if (/上身结果|结果|效果/.test(ending.stage)) {
+        return `结尾用「${ending.stage}：${detail}」展示穿着结果，让前面的内容回到用户能感知的效果。`;
+      }
+      if (/证明|透气|不透色|拉扯|工艺|功能/.test(`${ending.stage}${detail}`)) {
+        return `结尾用「${ending.stage}：${detail}」做最后证明，强化中间展示里的关键卖点。`;
+      }
+      return `结尾落在「${ending.stage}：${detail}」，负责给前面的「${middleRows.map(row => row.stage).join("、") || "内容展示"}」做收束。`;
+    }
+
+    function scriptOpening(item) {
+      const formulaOpening = String(item.script_formula || "").split("→")[0]?.trim();
+      if (formulaOpening) return formulaOpening;
+      return item.opening || "穿搭结果开头";
+    }
+
+    function keywordHit(text, keywords) {
+      return keywords.some(word => text.includes(word));
+    }
+
+    function contentRead(item, diagnosis = diagnoseMaterial(item)) {
+      const title = String(item.title || "");
+      const product = item.product_name || item.product || "";
+      const text = `${title} ${product}`.toLowerCase();
+      const tags = {
+        opening: "展示开头",
+        scene: "通勤场景",
+        contentType: "穿搭种草",
+        sellingPoint: "舒适百搭",
+        structure: "上身展示 + 卖点强化",
+      };
+
+      if (keywordHit(text, ["压力", "缺", "热", "烦", "焦虑", "不想", "怕"])) tags.opening = "痛点开头";
+      if (keywordHit(text, ["风一吹", "凉快", "舒服", "舒服的", "凉"])) tags.opening = "体感开头";
+      if (keywordHit(text, ["高级", "质感", "氛围", "优雅"])) tags.opening = "质感开头";
+
+      if (keywordHit(text, ["上班", "通勤", "职场"])) tags.scene = "上班通勤";
+      if (keywordHit(text, ["夏天", "夏季", "热"])) tags.scene = "夏季日常";
+      if (keywordHit(text, ["出去", "旅行", "户外", "春游"])) tags.scene = "外出场景";
+
+      if (keywordHit(text, ["显瘦", "遮肉", "小肚子", "梨形"])) tags.sellingPoint = "显瘦遮肉";
+      if (keywordHit(text, ["凉感", "透气", "舒服", "棉感"])) tags.sellingPoint = "凉感舒适";
+      if (keywordHit(text, ["高级", "质感", "面料"])) tags.sellingPoint = "面料高级感";
+      if (keywordHit(text, ["防晒", "遮阳", "upf"])) tags.sellingPoint = "防晒功能";
+
+      if (keywordHit(text, ["合集", "几套", "多套"])) tags.contentType = "合集穿搭";
+      if (keywordHit(text, ["测评", "真实", "对比"])) tags.contentType = "测评种草";
+
+      if (Number(item.cpm) > 0 && Number(item.cpm) <= 10) tags.structure = "低CPM钩子 + 快速展示";
+      if (Number(item.roi) >= 30) tags.structure = "成交卖点明确 + 适合复刻";
+      if (Number(item.spend) >= 100 && Number(item.roi) < 20) tags.structure = "开头或卖点顺序需优化";
+
+      const adviceMap = {
+        scale: `保留「${tags.opening}」和「${tags.sellingPoint}」，同款式再拍 2-3 条不同场景版本。`,
+        copy: `复刻「${tags.scene} + ${tags.sellingPoint}」组合，换开头和模特做小样本测试。`,
+        watch: `先优化开头 3 秒和核心卖点顺序，控制预算观察ROI是否回升。`,
+        stop: `暂停同结构加热，优先换场景或换卖点表达后再测。`,
+        seed: `样本偏小，先补 1-2 场直播测试，再判断是否复刻。`,
+      };
+
+      return {
+        tags: [
+          `开头：${tags.opening}`,
+          `场景：${tags.scene}`,
+          `类型：${tags.contentType}`,
+          `卖点：${tags.sellingPoint}`,
+          `结构：${tags.structure}`,
+        ],
+        advice: adviceMap[diagnosis.key] || adviceMap.seed,
+      };
+    }
+
+    function diagnosisItem(item, diagnosis = diagnoseMaterial(item)) {
+      const read = contentRead(item, diagnosis);
+      return `
+        <div class="diagnosis-item">
+          <div class="diagnosis-title">
+            <b>${esc(shortTitle(item.title || item.video_id, 38))}</b>
+            ${diagnosisBadge(diagnosis)}
+          </div>
+          <div class="diagnosis-meta">
+            <span>消耗 ${money(item.spend)}</span>
+            <span>GMV ${money(item.gmv)}</span>
+            <span>ROI ${roi(item.roi)}</span>
+            <span>点击 ${intNum(item.enter_room)}</span>
+            <span>CPM ${money(item.cpm)}</span>
+          </div>
+          <div class="content-tags">${read.tags.map(tag => `<span class="content-tag">${esc(tag)}</span>`).join("")}</div>
+          <div class="content-read">${esc(read.advice)}</div>
+        </div>
+      `;
+    }
+
+    function renderFormula() {
+      if (!dashboardData) return;
+      document.getElementById("trafficFormula").textContent = dashboardData.formulas?.traffic || "-";
+      document.getElementById("salesFormula").textContent = dashboardData.formulas?.sales || "-";
+      document.getElementById("spendFormula").textContent = dashboardData.formulas?.spend || "-";
+    }
+
+    function shortTitle(title = "", length = 22) {
+      const value = String(title || "");
+      return value.length > length ? value.slice(0, length) + "..." : value;
+    }
+
+    function lineVideo(item) {
+      return `${shortTitle(item.title || item.video_id)}｜${item.video_id}｜${item.product_code || "-"}｜消耗${money(item.spend)}｜GMV${money(item.gmv)}｜ROI ${roi(item.roi)}｜${item.diagnosis?.label || diagnoseMaterial(item).label}`;
+    }
+
+    function reportData() {
+      const overview = dashboardData.overview;
+      const liveRatio = overview.total_spend ? overview.live_spend / overview.total_spend : 0;
+      const videoRatio = overview.total_spend ? overview.video_spend / overview.total_spend : 0;
+      const styles = styleSummaryList();
+      const topStyle = styles[0];
+      const scaleVideos = [...(dashboardData.material_all || [])]
+        .filter(item => (item.diagnosis?.key || diagnoseMaterial(item).key) === "scale")
+        .sort((a, b) => Number(b.gmv || 0) - Number(a.gmv || 0))
+        .slice(0, 3);
+      const copyVideos = [...(dashboardData.material_all || [])]
+        .filter(item => (item.diagnosis?.key || diagnoseMaterial(item).key) === "copy")
+        .sort((a, b) => Number(b.spend || 0) - Number(a.spend || 0))
+        .slice(0, 3);
+      const watchVideos = [...(dashboardData.material_all || [])]
+        .filter(item => ["watch", "stop"].includes(item.diagnosis?.key || diagnoseMaterial(item).key))
+        .sort((a, b) => Number(b.spend || 0) - Number(a.spend || 0))
+        .slice(0, 3);
+
+      const summary = [
+        `总消耗 ${money(overview.total_spend)}，总GMV ${money(overview.total_gmv)}，整体ROI ${roi(overview.roi)}。`,
+        `直播画面消耗 ${money(overview.live_spend)}（${ratio(liveRatio)}），短视频消耗 ${money(overview.video_spend)}（${ratio(videoRatio)}）。`,
+        `昨日发布作品 ${intNum(overview.published_video_count || overview.video_count)} 条，聚合短视频 ${intNum(overview.aggregated_material_video_count)} 条，款式匹配 ${intNum(overview.style_matched_video_count || 0)} 条。`
+      ].join("\n");
+
+      const styleLines = styles.slice(0, 5).map((style, index) =>
+        `${index + 1}. ${style.product_name || "-"} ${style.product_code}｜消耗${money(style.spend)}｜GMV${money(style.gmv)}｜ROI ${roi(style.roi)}｜覆盖${intNum(style.video_count)}条视频/${intNum(style.room_count)}场直播｜${style.advice.label}`
+      );
+
+      const actionLines = [
+        scaleVideos.length ? `继续放量：\n${scaleVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "继续放量：暂无达到放量阈值的视频",
+        copyVideos.length ? `复刻拍摄：\n${copyVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "复刻拍摄：暂无达到复刻阈值的视频",
+        watchVideos.length ? `观察/降预算：\n${watchVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "观察/降预算：暂无明显控成本风险"
+      ];
+
+      const next = topStyle
+        ? `下一批优先围绕 ${topStyle.product_name || "-"} ${topStyle.product_code} 继续拍摄：该款当前消耗${money(topStyle.spend)}，GMV${money(topStyle.gmv)}，ROI ${roi(topStyle.roi)}，覆盖${intNum(topStyle.video_count)}条视频。`
+        : "下一批先补齐款式数据，再判断主推拍摄方向。";
+
+      return {
+        summary,
+        styles: styleLines.join("\n"),
+        actions: actionLines.join("\n\n"),
+        next,
+      };
+    }
+
+    function buildReportText() {
+      const data = reportData();
+      return [
+        `【抖音内容投放日报｜${dashboardData.date}】`,
+        "",
+        "一、今日概览",
+        data.summary,
+        "",
+        "二、款式建议",
+        data.styles || "暂无款式数据",
+        "",
+        "三、短视频动作",
+        data.actions,
+        "",
+        "四、明日拍摄建议",
+        data.next,
+      ].join("\n");
+    }
+
+    function renderReport() {
+      if (!dashboardData) return;
+      const data = reportData();
+      document.getElementById("reportDate").textContent = dashboardData.date;
+      document.getElementById("reportBlocks").innerHTML = `
+        <div class="report-block"><b>今日概览</b><p>${esc(data.summary)}</p></div>
+        <div class="report-block"><b>款式建议</b><p>${esc(data.styles || "暂无款式数据")}</p></div>
+        <div class="report-block"><b>短视频动作</b><p>${esc(data.actions)}</p></div>
+        <div class="report-block"><b>明日拍摄建议</b><p>${esc(data.next)}</p></div>
+      `;
+      document.getElementById("reportText").value = buildReportText();
+    }
+
+    function shortTitle(title = "", length = 22) {
+      const value = String(title || "");
+      return value.length > length ? value.slice(0, length) + "..." : value;
+    }
+
+    function lineVideo(item) {
+      const diagnosis = item.diagnosis?.label || diagnoseMaterial(item).label;
+      return `${shortTitle(item.title || item.video_id, 30)}｜消耗 ${money(item.spend)}｜GMV ${money(item.gmv)}｜ROI ${roi(item.roi)}｜${diagnosis}`;
+    }
+
+    function reportData() {
+      const overview = dashboardData.overview;
+      const liveRatio = overview.total_spend ? overview.live_spend / overview.total_spend : 0;
+      const videoRatio = overview.total_spend ? overview.video_spend / overview.total_spend : 0;
+      const styles = styleSummaryList();
+      const topStyle = styles[0];
+      const scaleVideos = [...(dashboardData.material_all || [])]
+        .filter(item => (item.diagnosis?.key || diagnoseMaterial(item).key) === "scale")
+        .sort((a, b) => Number(b.gmv || 0) - Number(a.gmv || 0))
+        .slice(0, 3);
+      const copyVideos = [...(dashboardData.material_all || [])]
+        .filter(item => (item.diagnosis?.key || diagnoseMaterial(item).key) === "copy")
+        .sort((a, b) => Number(b.spend || 0) - Number(a.spend || 0))
+        .slice(0, 3);
+      const watchVideos = [...(dashboardData.material_all || [])]
+        .filter(item => ["watch", "stop"].includes(item.diagnosis?.key || diagnoseMaterial(item).key))
+        .sort((a, b) => Number(b.spend || 0) - Number(a.spend || 0))
+        .slice(0, 3);
+
+      const summary = [
+        `总消耗 ${money(overview.total_spend)}，总GMV ${money(overview.total_gmv)}，整体ROI ${roi(overview.roi)}。`,
+        `直播画面消耗 ${money(overview.live_spend)}（${ratio(liveRatio)}），短视频消耗 ${money(overview.video_spend)}（${ratio(videoRatio)}）。`,
+        `昨日发布作品 ${intNum(overview.published_video_count || overview.video_count)} 条，聚合短视频 ${intNum(overview.aggregated_material_video_count)} 条，款式匹配 ${intNum(overview.style_matched_video_count || 0)} 条。`
+      ].join("\n");
+
+      const styleLines = styles.slice(0, 5).map((style, index) =>
+        `${index + 1}. ${style.product_name || "-"} ${style.product_code}｜消耗${money(style.spend)}｜GMV${money(style.gmv)}｜ROI ${roi(style.roi)}｜覆盖${intNum(style.video_count)}条视频/${intNum(style.room_count)}场直播｜${style.advice.label}`
+      );
+
+      const actionLines = [
+        scaleVideos.length ? `继续放量：\n${scaleVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "继续放量：暂无达到放量阈值的视频",
+        copyVideos.length ? `复刻拍摄：\n${copyVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "复刻拍摄：暂无达到复刻阈值的视频",
+        watchVideos.length ? `观察/降预算：\n${watchVideos.map((item, i) => `${i + 1}. ${lineVideo(item)}`).join("\n")}` : "观察/降预算：暂无明显控成本风险"
+      ];
+
+      const next = topStyle
+        ? `下一批优先围绕 ${topStyle.product_name || "-"} ${topStyle.product_code} 继续拍摄：该款当前消耗 ${money(topStyle.spend)}，GMV ${money(topStyle.gmv)}，ROI ${roi(topStyle.roi)}，覆盖 ${intNum(topStyle.video_count)} 条视频。`
+        : "下一批先补齐款式数据，再判断主推拍摄方向。";
+
+      return {
+        liveRatio,
+        videoRatio,
+        summary,
+        styles: styleLines.join("\n"),
+        actions: actionLines.join("\n\n"),
+        next,
+      };
+    }
+
+    function buildReportText() {
+      const data = reportData();
+      return [
+        `【抖音内容投放日报｜${dashboardData.date}】`,
+        "",
+        "一、今日概览",
+        data.summary,
+        "",
+        "二、款式建议",
+        data.styles || "暂无款式数据",
+        "",
+        "三、短视频动作",
+        data.actions,
+        "",
+        "四、明日拍摄建议",
+        data.next,
+      ].join("\n");
+    }
+
+    function reportListHtml(text, emptyText) {
+      const lines = String(text || "").split("\n").filter(Boolean);
+      if (!lines.length) return `<li>${esc(emptyText)}</li>`;
+      return lines.map(line => `<li>${esc(line)}</li>`).join("");
+    }
+
+    function actionListHtml(text) {
+      const groups = String(text || "").split("\n\n").filter(Boolean);
+      if (!groups.length) return "<li>暂无动作建议</li>";
+      return groups.map(group => {
+        const lines = group.split("\n").filter(Boolean);
+        const title = lines.shift() || "动作建议";
+        const items = lines.map(line => {
+          const clean = line.replace(/^\d+\.\s*/, "");
+          const parts = clean.split("｜").filter(Boolean);
+          const videoTitle = parts.shift() || clean;
+          return `
+            <div class="report-action-item">
+              <div class="report-video-title">${esc(videoTitle)}</div>
+              <div class="report-metrics">${parts.map(part => `<span class="report-metric">${esc(part)}</span>`).join("")}</div>
+            </div>
+          `;
+        }).join("");
+        return `<li><strong>${esc(title)}</strong><div class="report-action-items">${items || esc(lines.join("\n"))}</div></li>`;
+      }).join("");
+    }
+
+    function renderReport() {
+      if (!dashboardData) return;
+      const data = reportData();
+      const overview = dashboardData.overview;
+      document.getElementById("reportDate").textContent = dashboardData.date;
+      document.getElementById("reportBlocks").innerHTML = `
+        <div class="report-stats">
+          <div class="report-stat"><span>昨日总消耗</span><b>${money(overview.total_spend)}</b></div>
+          <div class="report-stat"><span>昨日总GMV</span><b>${money(overview.total_gmv)}</b></div>
+          <div class="report-stat"><span>整体ROI</span><b>${roi(overview.roi)}</b></div>
+          <div class="report-stat"><span>短视频消耗占比</span><b>${ratio(data.videoRatio)}</b></div>
+        </div>
+        <div class="report-grid">
+          <div class="report-block">
+            <b>款式建议 <span>TOP5</span></b>
+            <ul class="report-list">${reportListHtml(data.styles, "暂无款式数据")}</ul>
+          </div>
+          <div class="report-block">
+            <b>短视频动作 <span>放量 / 复刻 / 观察</span></b>
+            <ul class="report-list">${actionListHtml(data.actions)}</ul>
+          </div>
+        </div>
+        <div class="report-block"><b>明日拍摄建议</b><p>${esc(data.next)}</p></div>
+      `;
+      document.getElementById("reportText").value = buildReportText();
+    }
+
+    document.querySelectorAll(".material-tab").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".material-tab").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        renderMaterialRows(button.dataset.mode);
+        renderFrameAnalysis();
+      });
+    });
+
+    document.querySelectorAll(".new-material-tab").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".new-material-tab").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        renderNewMaterialRows(button.dataset.mode);
+        renderFrameAnalysis();
+      });
+    });
+
+    document.querySelectorAll(".trend-toggle").forEach(button => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.trend;
+        if (activeTrends.has(key) && activeTrends.size === 1) return;
+        if (activeTrends.has(key)) {
+          activeTrends.delete(key);
+          button.classList.remove("active");
+        } else {
+          activeTrends.add(key);
+          button.classList.add("active");
+        }
+        if (dashboardData) updateSevenDayTrend(dashboardData.overview);
+      });
+    });
+
+    document.getElementById("materialRows").addEventListener("click", event => {
+      const row = event.target.closest(".material-row");
+      if (!row) return;
+      const detailRow = row.nextElementSibling;
+      if (!detailRow || !detailRow.classList.contains("detail-row")) return;
+      detailRow.hidden = !detailRow.hidden;
+    });
+
+    document.getElementById("newMaterialRows").addEventListener("click", event => {
+      const row = event.target.closest(".new-material-row");
+      if (!row) return;
+      const detailRow = row.nextElementSibling;
+      if (!detailRow || !detailRow.classList.contains("detail-row")) return;
+      detailRow.hidden = !detailRow.hidden;
+    });
+
+    document.getElementById("liveRows").addEventListener("click", event => {
+      const row = event.target.closest(".live-row");
+      if (!row) return;
+      const detailRow = row.nextElementSibling;
+      if (!detailRow || !detailRow.classList.contains("live-detail-row")) return;
+      detailRow.hidden = !detailRow.hidden;
+    });
+
+    document.getElementById("copyReportBtn").addEventListener("click", async () => {
+      const text = document.getElementById("reportText").value;
+      const status = document.getElementById("copyStatus");
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "已复制";
+      } catch (error) {
+        const textarea = document.getElementById("reportText");
+        textarea.focus();
+        textarea.select();
+        status.textContent = "已选中";
+      }
+      window.setTimeout(() => {
+        status.textContent = "";
+      }, 1800);
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", async () => {
+      const select = document.getElementById("dataDateSelect");
+      const file = select?.value || "";
+      const files = window.DASHBOARD_DATA_FILES || [];
+      const expectedDate = files.find(item => item.file === file)?.date || "";
+      if (!file) {
+        window.location.reload();
+        return;
+      }
+      const button = document.getElementById("refreshBtn");
+      button.disabled = true;
+      button.textContent = "刷新中";
+      try {
+        dashboardTrendHistory = [];
+        dashboardFileCache.delete(file);
+        const data = await loadDashboardFile(file, expectedDate);
+        if (data?.overview) {
+          dashboardData = data;
+          syncDashboardGlobals(data);
+          renderAll();
+          hydrateSevenDayTrend();
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent = "刷新页面数据";
+      }
+    });
+
+    function activeMaterialMode() {
+      return document.querySelector(".material-tab.active")?.dataset.mode || "spend";
+    }
+
+    function activeNewMaterialMode() {
+      return document.querySelector(".new-material-tab.active")?.dataset.mode || "spend";
+    }
+
+    function renderAll() {
+      updateOverview();
+      renderLiveRows();
+      renderLiveAnalysis();
+      renderMaterialRows(activeMaterialMode());
+      renderNewMaterialRows(activeNewMaterialMode());
+      renderStyleRows();
+      renderDiagnosis();
+      renderFrameAnalysis();
+      renderFormula();
+      renderReport();
+    }
+
+    function trendPointFromData(data) {
+      const overview = data?.overview || {};
+      const totalSpend = Number(overview.total_spend) || 0;
+      return {
+        date: data?.date || "",
+        live_ratio: totalSpend ? (Number(overview.live_spend) || 0) / totalSpend : 0,
+        video_ratio: totalSpend ? (Number(overview.video_spend) || 0) / totalSpend : 0,
+        roi: Number(overview.roi) || 0
+      };
+    }
+
+    function getLoadedDashboardData(expectedDate = "") {
+      const candidates = [window.DASHBOARD_DATA, window.dashboardData].filter(Boolean);
+      if (expectedDate) {
+        const matched = candidates.find(data => data?.date === expectedDate);
+        if (matched) return matched;
+      }
+      return candidates[0] || null;
+    }
+
+    function syncDashboardGlobals(data) {
+      if (!data) return;
+      window.DASHBOARD_DATA = data;
+      window.dashboardData = data;
+    }
+
+    function loadDashboardFile(file, expectedDate = "") {
+      if (!file) return Promise.resolve(null);
+      if (dashboardFileCache.has(file)) return Promise.resolve(dashboardFileCache.get(file));
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = `${file}?v=${Date.now()}`;
+        script.onload = () => {
+          const data = getLoadedDashboardData(expectedDate);
+          syncDashboardGlobals(data);
+          dashboardFileCache.set(file, data);
+          script.remove();
+          resolve(data);
+        };
+        script.onerror = () => {
+          script.remove();
+          reject(new Error(`load ${file} failed`));
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    async function hydrateSevenDayTrend() {
+      if (!dashboardData?.date) return;
+      const token = ++trendLoadToken;
+      const currentData = dashboardData;
+      const files = (window.DASHBOARD_DATA_FILES || [])
+        .filter(item => item.date <= currentData.date)
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .slice(-7);
+      if (!files.length) {
+        dashboardTrendHistory = [trendPointFromData(currentData)];
+        updateSevenDayTrend(currentData.overview);
+        return;
+      }
+      const currentFile = files.find(item => item.date === currentData.date)?.file;
+      if (currentFile) dashboardFileCache.set(currentFile, currentData);
+      const points = [];
+      for (const item of files) {
+        try {
+          const data = item.date === currentData.date ? currentData : await loadDashboardFile(item.file, item.date);
+          if (data?.overview) points.push(trendPointFromData(data));
+        } catch (error) {
+          points.push({ date: item.date, missing: true });
+        }
+      }
+      if (token !== trendLoadToken) return;
+      dashboardData = currentData;
+      syncDashboardGlobals(currentData);
+      dashboardTrendHistory = points;
+      updateSevenDayTrend(currentData.overview);
+    }
+
+    function setupDateSelect() {
+      const select = document.getElementById("dataDateSelect");
+      const files = window.DASHBOARD_DATA_FILES || [];
+      if (!select || !files.length) {
+        if (select) select.hidden = true;
+        return;
+      }
+      select.innerHTML = files
+        .slice()
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .map(item => `<option value="${esc(item.file)}" ${dashboardData?.date === item.date ? "selected" : ""}>${esc(item.date)}</option>`)
+        .join("");
+      select.addEventListener("change", () => {
+        const file = select.value;
+        const expectedDate = files.find(item => item.file === file)?.date || "";
+        dashboardTrendHistory = [];
+        const script = document.createElement("script");
+        script.src = `${file}?v=${Date.now()}`;
+        script.onload = () => {
+          dashboardData = getLoadedDashboardData(expectedDate) || dashboardData;
+          syncDashboardGlobals(dashboardData);
+          renderAll();
+          hydrateSevenDayTrend();
+          script.remove();
+        };
+        script.onerror = () => {
+          document.getElementById("pageSubTitle").textContent = `读取 ${file} 失败`;
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    setupDateSelect();
+    renderAll();
+    hydrateSevenDayTrend();
+  </script>
+</body>
+</html>
